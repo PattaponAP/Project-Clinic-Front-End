@@ -1,8 +1,17 @@
 import Link from "next/link";
 import { useState } from "react";
+import Cookies from 'js-cookie';
+import router from "next/router";
+
 
 export const NavBar = () => {
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
+    const logout= () => {
+        Cookies.remove('token')
+        router.push("/")
+        window.location.reload()
+    }
 
     const toggleDropDown = (dropdownName: string) => {
         setOpenDropdown(openDropdown === dropdownName ? null : dropdownName);
@@ -75,7 +84,7 @@ export const NavBar = () => {
             </div>
 
             <div className="p-4 mt-auto">
-                <button className="w-full border border-white p-2 rounded-lg hover:bg-red-500 transition-colors">
+                <button onClick={logout} className="w-full border border-white p-2 rounded-lg hover:bg-red-500 transition-colors">
                     Sign Out
                 </button>
             </div>
