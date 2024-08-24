@@ -22,7 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
             ) : (
                 <div className={`grid grid-cols-[300px_auto] min-h-screen overflow-x-auto ${kanit.className}`}>
                     <NavBar />
-                    <div style={{ height: 'calc(100vh - 2.5rem)' }} className="m-4 border p-8">
+                    <div className="m-8">
                         <Component {...pageProps} name={name}/>
                     </div>
                 </div>

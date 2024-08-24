@@ -13,8 +13,7 @@ export const QueuePersonal = () => {
     ];
 
     return (
-        <div className="relative border border-black p-4">
-            <div className="px-4 absolute text-[28px] top-[-25px] left-[25px] bg-white">ลำดับการเข้ารักษา</div>
+        <div className="overflow-x-auto text-nowrap">
             <div className="overflow-y-auto min-h-[280px] max-h-[280px]  scrollbar-hidden">
                 <table className="w-full mt-2 overflow-x-auto">
                     <thead className="sticky top-0 bg-gray-200 ">

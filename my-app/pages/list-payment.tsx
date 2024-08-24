@@ -25,7 +25,7 @@ export default function ListPayment() {
             <div className="px-4 absolute text-[28px] top-[-25px] left-[25px] bg-white">
             ลำดับการจ่ายเงิน ทั้งหมด <span className="text-[32px] text-red-500">{mockQueueData.length} </span> คน
             </div>
-            <div className="p-8 mb-8 space-y-4 w-full max-h-full overflow-y-auto">
+            <div className="p-8 mb-8 space-y-4 w-full h-[calc(100vh-100px)] overflow-y-auto">
                 {mockQueueData.map((queue) => (
                     <AllPaymentPerson key={queue.id} queue={queue} />
                 ))}

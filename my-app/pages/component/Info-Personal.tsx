@@ -1,9 +1,8 @@
 export const InfoPersonal = () => {
 
     return (
-        <div className="relative border border-black p-4 text-nowrap">
-            <div className=" px-4 absolute text-[28px] top-[-25px] left-[25px] bg-white">ผู้ป่วย</div>
-            <div className="m-4 space-y-4">
+        <div className="text-nowrap">
+            <div className="space-y-4">
                 <div className="grid grid-cols-4 w-full gap-4">
 
                     <div className="col-span-1 relative">
