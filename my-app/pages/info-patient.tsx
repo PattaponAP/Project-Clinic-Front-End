@@ -1,7 +1,7 @@
 export default function InfoPatient() {
     return (
-        <div>
-            InfoPatient Page .
+        <div className="p-6 border">
+            <div></div>
         </div>
     )
 }
