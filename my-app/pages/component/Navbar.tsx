@@ -7,9 +7,8 @@ import router from "next/router";
 export const NavBar = () => {
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
-    const logout= () => {
+    const handleLogout= () => {
         Cookies.remove('token')
-        router.push("/")
         window.location.reload()
     }
 
@@ -84,7 +83,7 @@ export const NavBar = () => {
             </div>
 
             <div className="p-4 mt-auto">
-                <button onClick={logout} className="w-full border border-white p-2 rounded-lg hover:bg-red-500 transition-colors">
+                <button onClick={handleLogout} className="w-full border border-white p-2 rounded-lg hover:bg-red-500 transition-colors">
                     Sign Out
                 </button>
             </div>

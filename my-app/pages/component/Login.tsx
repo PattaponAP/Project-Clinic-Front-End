@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { LoginAuth } from '../api/POST/LoginAuth';
 import Cookies from 'js-cookie';
+import router from 'next/router';
 
 interface LoginProps {
     onLogin: (status: boolean) => void;
@@ -10,52 +11,79 @@ interface LoginProps {
 export const Login: React.FC<LoginProps> = ({ onLogin, name }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+
 
     useEffect(() => {
         const token = Cookies.get('token');
         if (token) {
             onLogin(true);
+        } else {
+            onLogin(false)
+            router.push("/")
         }
     }, [onLogin]);
 
     const handleLogin = async () => {
-        try {
-            const res = await LoginAuth(username, password);
-            Cookies.set('token', res.token, { expires: 30 });
-            name(res.username); // เรียกใช้ฟังก์ชัน name เพื่อส่งชื่อไปยัง App component
-            console.log(res);
-            onLogin(true);
-        } catch (error) {
-            console.error('Error during login:', error);
-            onLogin(false);
+        if (username !== '' && password !== '') {
+            try {
+
+                const res = await LoginAuth(username, password);
+                Cookies.set('token', res.token, { expires: 30 });
+                setError('')
+                name(res.username);
+                console.log(res);
+                onLogin(true);
+            } catch (error) {
+                console.error('Error during login:', error);
+                onLogin(false);
+                setError('X กรุณาลองใหม่อีกครั้ง')
+            }
+        } else {
+            setError("X กรุณากรอก Username และ Password")
         }
     };
 
     return (
         <div className='inset-0 flex justify-center items-center h-screen'>
-            <label>ID : </label>
-            <input
-                type="text"
-                className="border border-black p-2"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-            />
+            <div className='p-4 h-4/5 w-4/5 '>
+                <div className='text-[32px] font-semibold'>Logo</div>
+                <div className='h-full w-full flex flex-col justify-center items-center space-y-8'>
+                    <div className='text-[36px] font-bold w-2/5'>Sing in</div>
+                    <div className=' relative w-2/5'>
+                        <label className=' absolute p-2 px-4 translate-x-[20px] translate-y-[-30px] text-[24px]  bg-white'>Username</label>
+                        <input
+                            type="text"
+                            className="border border-gray-400  rounded-xl p-4 w-full text-[24px]"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                    </div>
 
-            <label>Password : </label>
-            <input
-                type="password"
-                className="border border-black p-2"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
+                    <div className=' relative w-2/5'>
+                        <label className=' absolute p-2 px-4 translate-x-[20px] translate-y-[-30px] text-[24px]  bg-white'>Password</label>
+                        <input
+                            type="password"
+                            className="border  border-gray-400 rounded-xl p-4 w-full text-[24px]"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </div>
 
-            <button
-                className='border border-black p-2 hover:bg-black'
-                onClick={handleLogin}
-            >
-                LogIn
-            </button>
+                    <button
+                        className='border rounded-xl p-2 w-2/5 bg-[#30B0C7] text-[18px] font-semibold text-white hover:bg-white hover:border-black hover:text-black transition-colors'
+                        onClick={handleLogin}
+                    >
+                        Sign in
+                    </button>
+                    <div className='text-[18px] text-red-500'>
+                        {error}
+                    </div>
+                </div>
+            </div>
+
         </div>
+
     );
 }
 
