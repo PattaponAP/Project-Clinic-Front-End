@@ -23,13 +23,14 @@ export const Login: React.FC<LoginProps> = ({ onLogin, name }) => {
             router.push("/")
         }
     }, [onLogin]);
+    
 
     const handleLogin = async () => {
         if (username !== '' && password !== '') {
             try {
 
                 const res = await LoginAuth(username, password);
-                Cookies.set('token', res.token, { expires: 30 });
+                Cookies.set('token', res.token, { expires: 1 });
                 setError('')
                 name(res.username);
                 console.log(res);

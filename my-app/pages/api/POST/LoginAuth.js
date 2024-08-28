@@ -1,3 +1,4 @@
+
 export const LoginAuth = async (username, password) => {
     const res = await fetch('https://dummyjson.com/auth/login', {
         method: 'POST',
@@ -11,6 +12,7 @@ export const LoginAuth = async (username, password) => {
     });
 
     if (!res.ok) {
+        console.log(API_URL)
         throw new Error(`Login failed with status ${res.status}`);
     }
 

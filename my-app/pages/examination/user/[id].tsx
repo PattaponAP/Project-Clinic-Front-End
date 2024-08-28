@@ -26,7 +26,7 @@ export default function ExaminationDetail() {
             <div className=" relative border border-black">
                 <div className="absolute text-[28px] top-[-25px] left-[25px] px-4 bg-white">ข้อมูลร่างกาย</div>
                 <div className="p-8">
-                    <InfoBodyPersonal buttonCheck={true} />
+                    <InfoBodyPersonal buttonCheck={false} />
                 </div>
             </div>
 
