@@ -6,7 +6,7 @@ export const ListDrug = ({ drugs }: ListDrugProps) => {
     return (
         <>
             {drugs.map(drug => (
-                <div key={drug.id} className="p-4 bg-white shadow-xl border-y border-gray-400 w-full rounded-3xl flex flex-col sm:flex-row justify-between items-center">
+                <div key={drug.id} className="p-4 bg-white shadow-md border-y border-gray-400 w-full rounded-3xl flex flex-col sm:flex-row justify-between items-center ">
                     <div className="sm:ml-8 text-center sm:text-left">
                         {drug.name}
                     </div>

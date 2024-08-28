@@ -16,7 +16,7 @@ export default function App({ Component, pageProps }: AppProps) {
     const [name, setName] = useState<string>(''); 
 
     return (
-        <>
+        <div className="hidden lg:block">
             {!isLogin ? (
                 <Login onLogin={setIsLogin} name={setName} />
             ) : (
@@ -27,6 +27,6 @@ export default function App({ Component, pageProps }: AppProps) {
                     </div>
                 </div>
             )}
-        </>
+        </div>
     );
 }

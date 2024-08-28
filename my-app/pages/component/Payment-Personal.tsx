@@ -16,7 +16,7 @@ export const PaymentPN = () => {
                 </div>
 
                 {isOpenPopup && (
-                    <PopupListDrug/>
+                    <PopupListDrug onClose={setIsOpenPopup}/>
                 )
                 }
 
@@ -39,9 +39,7 @@ export const PaymentPN = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex justify-center items-center mt-8 ">
-                    <button className="p-2 px-8 border border-black bg-[#042446] text-white rounded-xl shadow-xl hover:bg-white hover:text-black transition-colors"> บันทักข้อมูล </button>
-                </div>
+           
           
         </div>
     )

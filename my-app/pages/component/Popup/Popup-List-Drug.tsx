@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import ListDrug from "./List-Drug";
 
+interface PopupProps {
+    onClose: (close : boolean) => void
+}
+
 const drugs = [
     { id: 1, name: 'Paracetamol' },
     { id: 2, name: 'Ibuprofen' },
@@ -14,7 +18,7 @@ const drugs = [
     { id: 10, name: 'Cold Medicine' },
 ];
 
-export const PopupListDrug = () => {
+export const PopupListDrug = ({onClose} :PopupProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
 
@@ -31,14 +35,14 @@ export const PopupListDrug = () => {
                     </button>
                 </div>
 
-                <div className="space-y-4 max-h-[600px] overflow-y-auto scrollbar-hidden">
-                    <ListDrug drugs={drugs} />
+                <div className="space-y-4 p-4 max-h-[600px] overflow-y-auto scrollbar-hidden">
+                    <ListDrug drugs={drugs}/>
                 </div>
 
             </div>
             
             <div className='flex justify-center items-center mt-4'>
-                    <button className=' bg-red-500 p-2 px-8 rounded-xl text-white font-semibold'>
+                    <button onClick={() => onClose(false)} className=' bg-red-500 p-2 px-8 rounded-xl text-white font-semibold'>
                         X ปิดหน้าต่าง
                     </button>
             </div>
