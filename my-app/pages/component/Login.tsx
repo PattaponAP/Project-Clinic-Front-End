@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
-import { LoginAuth } from '../api/POST/LoginAuth';
+import { loginAuth } from '../api/POST/LoginAuth';
 import Cookies from 'js-cookie';
 import router from 'next/router';
 
 interface LoginProps {
     onLogin: (status: boolean) => void;
-    name: (name: string) => void; // เปลี่ยนให้เป็นฟังก์ชันที่รับพารามิเตอร์เป็นชื่อ
+    name: (name: string) => void; 
 }
 
 export const Login: React.FC<LoginProps> = ({ onLogin, name }) => {
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -28,13 +29,13 @@ export const Login: React.FC<LoginProps> = ({ onLogin, name }) => {
     const handleLogin = async () => {
         if (username !== '' && password !== '') {
             try {
-
-                const res = await LoginAuth(username, password);
+                const res = await loginAuth({ username, password });
                 Cookies.set('token', res.token, { expires: 1 });
                 setError('')
                 name(res.username);
                 console.log(res);
                 onLogin(true);
+
             } catch (error) {
                 console.error('Error during login:', error);
                 onLogin(false);
