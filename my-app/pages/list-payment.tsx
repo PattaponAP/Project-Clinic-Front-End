@@ -8,15 +8,6 @@ const mockQueueData = [
     { id: 5, name: 'สุนารี ชัยพิชัย' },
     { id: 6, name: 'นพดล ดีเยี่ยม' },
     { id: 7, name: 'นันทนา ดีใจ' },
-    { id: 8, name: 'ธนากร ศรีสุข' },
-    { id: 1, name: 'พัทธพล อภิชาติโชติกุล' },
-    { id: 2, name: 'สมชาย ใจดี' },
-    { id: 3, name: 'สมหญิง สุขใจ' },
-    { id: 4, name: 'สุเทพ ธรรมดา' },
-    { id: 5, name: 'สุนารี ชัยพิชัย' },
-    { id: 6, name: 'นพดล ดีเยี่ยม' },
-    { id: 7, name: 'นันทนา ดีใจ' },
-    { id: 8, name: 'ธนากร ศรีสุข' },
 ];
 
 export default function ListPayment() {

@@ -17,7 +17,7 @@ export const NavBar = () => {
     };
 
     return (
-        <div className="bg-[#042446] h-screen flex flex-col text-white">
+        <div className="bg-[#042446] flex flex-col text-white">
             <div className="border m-4 h-1/5">
                 <div className="flex justify-center items-center h-[150px] text-[32px] font-semibold">Logo</div>
             </div>

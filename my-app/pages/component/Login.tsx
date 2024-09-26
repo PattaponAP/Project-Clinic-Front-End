@@ -17,6 +17,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, name }) => {
 
     useEffect(() => {
         const token = Cookies.get('token');
+        console.log(token)
         if (token) {
             onLogin(true);
         } else {
