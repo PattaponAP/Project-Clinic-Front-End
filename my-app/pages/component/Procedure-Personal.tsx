@@ -1,4 +1,7 @@
+
 export const ProcedurePN = () => {
+
+
     return (
         <div className="relative border border-black p-4 text-nowrap">
         <div className="px-4 absolute text-[28px] top-[-25px] left-[25px] bg-white">หัตถการ</div>

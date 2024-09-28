@@ -1,8 +1,20 @@
+import { useState } from "react";
+import PopupCheck from "./Popup/PopupCheck";
+
 interface InfoBodyProps {
     buttonCheck: boolean;
 }
 
 export const InfoBodyPersonal = ({ buttonCheck }: InfoBodyProps) => {
+    const [isVisible, setIsVisible] = useState(false); 
+
+    const handleButtonClick = () => {
+        setIsVisible(true); 
+        setTimeout(() => {
+            setIsVisible(false); 
+        }, 2000); 
+    };
+
     return (
         <div className="text-nowrap">
             <div className="space-y-4">
@@ -60,13 +72,19 @@ export const InfoBodyPersonal = ({ buttonCheck }: InfoBodyProps) => {
 
                 {buttonCheck && (
                     <div className="w-full flex justify-end items-end">
-                        <button className="border border-black hover:bg-gray-500 p-4 px-8 rounded-xl transition-colors">
+                        <button
+                            onClick={handleButtonClick} 
+                            className="border border-black hover:bg-gray-500 p-4 px-8 rounded-xl transition-colors">
                             เข้าคิวรักษา
                         </button>
                     </div>
                 )}
+
+                {isVisible && <PopupCheck check={false} title="บันทึกคิวสำเร็จ"/>}
+
             </div>
         </div>
+
     );
 };
 

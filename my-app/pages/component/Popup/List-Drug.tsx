@@ -2,17 +2,21 @@ import React, { useState } from "react";
 
 interface ListDrugProps {
     drugs: { id: number; name: string }[];
+    onListUpdate: (updatedList: string[]) => void;
 }
 
-export const ListDrug = ({ drugs }: ListDrugProps) => {
-    const [list, setList] = useState<string[]>([]); 
+export const ListDrug = ({ drugs, onListUpdate }: ListDrugProps) => {
+    const [selectedList, setSelectedList] = useState<string[]>([]); 
 
     const handleList = (drugName: string) => {
-        if (list.includes(drugName)) {
-            setList(prevList => prevList.filter(name => name !== drugName));
+        let updatedList;
+        if (selectedList.includes(drugName)) {
+            updatedList = selectedList.filter(name => name !== drugName);
         } else {
-            setList(prevList => [...prevList, drugName]);
+            updatedList = [...selectedList, drugName];
         }
+        setSelectedList(updatedList);
+        onListUpdate(updatedList);
     };
 
     return (
@@ -33,12 +37,12 @@ export const ListDrug = ({ drugs }: ListDrugProps) => {
 
                         <button
                             className={`p-2 px-4 rounded-2xl transition-colors w-[70px] ${
-                                list.includes(drug.name) ? 'bg-white border border-black text-black' : 'bg-[#042446]'
+                                selectedList.includes(drug.name) ? 'bg-white border border-black text-black' : 'bg-[#042446]'
                             }`}
                             onClick={() => handleList(drug.name)}
                         >
                             <div className="flex items-center justify-center">
-                                {list.includes(drug.name) ? (
+                                {selectedList.includes(drug.name) ? (
                                     <span className="text-[14px] font-extrabold">✔</span>
                                 ) : (
                                     <span>จ่ายยา</span>

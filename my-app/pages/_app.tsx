@@ -1,4 +1,6 @@
 import "@/styles/globals.css";
+import "@/pages/component/Popup/styles-popup.css";
+
 import type { AppProps } from "next/app";
 import { NavBar } from "./component/Navbar"; 
 import { Kanit } from "next/font/google";
