@@ -15,26 +15,13 @@ export const Login: React.FC<LoginProps> = ({ onLogin, name }) => {
     const [error, setError] = useState('');
 
 
-    useEffect(() => {
-        const token = Cookies.get('token');
-        console.log(token)
-        if (token) {
-            onLogin(true);
-        } else {
-            onLogin(false)
-            router.push("/")
-        }
-    }, [onLogin]);
-    
-
     const handleLogin = async () => {
         if (username !== '' && password !== '') {
             try {
                 const res = await loginAuth({ username, password });
+                console.log(res)
                 Cookies.set('token', res.token, { expires: 1 });
                 setError('')
-                name(res.username);
-                console.log(res);
                 onLogin(true);
 
             } catch (error) {
@@ -58,17 +45,15 @@ export const Login: React.FC<LoginProps> = ({ onLogin, name }) => {
                         <input
                             type="text"
                             className="border border-gray-400  rounded-xl p-4 w-full text-[24px]"
-                            value={username}
                             onChange={(e) => setUsername(e.target.value)}
                         />
                     </div>
 
-                    <div className=' relative w-2/5'>
-                        <label className=' absolute p-2 px-4 translate-x-[20px] translate-y-[-30px] text-[24px]  bg-white'>Password</label>
+                    <div className='relative w-2/5'>
+                        <label className=' absolute p-2 px-4 translate-x-[20px] translate-y-[-30px] text-[24px] bg-white'>Password</label>
                         <input
                             type="password"
-                            className="border  border-gray-400 rounded-xl p-4 w-full text-[24px]"
-                            value={password}
+                            className="border border-gray-400 rounded-xl p-4 w-full text-[24px]"
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>

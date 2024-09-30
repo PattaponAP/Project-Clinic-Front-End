@@ -4,8 +4,10 @@ import "@/pages/component/Popup/styles-popup.css";
 import type { AppProps } from "next/app";
 import { NavBar } from "./component/Navbar"; 
 import { Kanit } from "next/font/google";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Login } from "./component/Login";
+import Cookies from 'js-cookie';
+import router from "next/router";
 
 const kanit = Kanit({
     subsets: ['latin'],
@@ -15,6 +17,17 @@ const kanit = Kanit({
 export default function App({ Component, pageProps }: AppProps) {
     const [isLogin, setIsLogin] = useState(false);
     const [name, setName] = useState<string>(''); 
+    
+    useEffect(() => {
+        const token = Cookies.get('token');
+        if (token) {
+            setIsLogin(true);
+        } else {
+            setIsLogin(false)
+            router.push("/")
+        }
+    }, [isLogin]);
+    
 
     return (
         <div className="overflow-auto">
