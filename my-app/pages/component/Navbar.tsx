@@ -1,24 +1,41 @@
 import Link from "next/link";
 import { useState } from "react";
+import Cookies from 'js-cookie';
+import Image from "next/image";
+
+import logoClinic from "@/styles/Images/Logo-Clinic.svg"
+
+import { FaClinicMedical } from "react-icons/fa";
+import { GrContactInfo } from "react-icons/gr";
+import { FaInfoCircle } from "react-icons/fa";
+import { HiOutlineViewGridAdd } from "react-icons/hi";
 
 export const NavBar = () => {
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
+    const handleLogout= () => {
+        Cookies.remove('token')
+        window.location.reload()
+    }
 
     const toggleDropDown = (dropdownName: string) => {
         setOpenDropdown(openDropdown === dropdownName ? null : dropdownName);
     };
 
     return (
-        <div className="bg-[#042446] h-screen flex flex-col text-white">
+        <div className="bg-[#042446] flex flex-col justify-between text-white">
             <div className="border m-4 h-1/5">
-                <div className="flex justify-center items-center h-[150px] text-[32px] font-semibold">Logo</div>
+                <div className="flex justify-center h-[150px]">
+                    <div className="mt-8 text-[28px]">คลินิกแพทย์หญิงภนุชร</div>
+                    <Image src={logoClinic} alt="clinic-icon" width={100} height={200} />
+                    </div>
             </div>
 
-            <div className="space-y-4 border-t border-white h-4/5 mt-12">
-                <div>
+            <div className="space-y-4 border-t border-white h-4/5 mt-14">
+                <div className="mt-14">
                     <button onClick={() => toggleDropDown("clinic")} className="w-full transition-transform">
                         <div className="flex items-center p-4 space-x-4 hover:bg-slate-600 transition-colors">
-                            <div className="p-1 border">Icon</div>
+                            <div><FaClinicMedical size={30}/></div>
                             <div className="text-[20px]">จัดการคลินิค</div>
                         </div>
                     </button>
@@ -35,7 +52,7 @@ export const NavBar = () => {
                 <div>
                     <Link href="/info-patient">
                         <div className="flex items-center p-4 space-x-4 hover:bg-slate-600 transition-colors">
-                            <div className="p-1 border">Icon</div>
+                            <div><GrContactInfo size={30}/></div>
                             <div className="text-[20px]">ข้อมูลผู้ป่วย</div>
                         </div>
                     </Link>
@@ -43,7 +60,7 @@ export const NavBar = () => {
                 <div>
                     <button onClick={() => toggleDropDown("Info-drug")} className="w-full transition-transform">
                         <div className="flex items-center p-4 space-x-4 hover:bg-slate-600 transition-colors">
-                            <div className="p-1 border">Icon</div>
+                            <div><HiOutlineViewGridAdd size={30}/></div>
                             <div className="text-[20px]">ข้อมูลยา / เพิ่ม</div>
                         </div>
                     </button>
@@ -60,7 +77,7 @@ export const NavBar = () => {
                 <div>
                     <button onClick={() => toggleDropDown("more")} className="w-full transition-transform">
                         <div className="flex items-center p-4 space-x-4 hover:bg-slate-600 transition-colors">
-                            <div className="p-1 border">Icon</div>
+                            <div><FaInfoCircle size={30}/></div>
                             <div className="text-[20px]">รายการเพิ่มเติม</div>
                         </div>
                     </button>
@@ -75,7 +92,7 @@ export const NavBar = () => {
             </div>
 
             <div className="p-4 mt-auto">
-                <button className="w-full border border-white p-2 rounded-lg hover:bg-red-500 transition-colors">
+                <button onClick={handleLogout} className="w-full border border-white p-2 rounded-lg hover:bg-red-500 transition-colors">
                     Sign Out
                 </button>
             </div>
