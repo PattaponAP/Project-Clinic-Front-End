@@ -3,7 +3,7 @@ import { useState } from "react";
 import Cookies from 'js-cookie';
 import Image from "next/image";
 
-import logoClinic from "@/styles/Images/Logo-Clinic.svg"
+import logoClinic from "@/styles/Images/clinic_green.png"
 
 import { FaClinicMedical } from "react-icons/fa";
 import { GrContactInfo } from "react-icons/gr";
@@ -24,14 +24,15 @@ export const NavBar = () => {
 
     return (
         <div className="bg-[#042446] flex flex-col justify-between text-white">
-            <div className="border m-4 h-1/5">
+            <div className=" m-4 h-1/5 rounded-xl">
+            <Link href={"/"}    >
                 <div className="flex justify-center h-[150px]">
-                    <div className="mt-8 text-[28px]">คลินิกแพทย์หญิงภนุชร</div>
-                    <Image src={logoClinic} alt="clinic-icon" width={100} height={200} />
+                    <Image src={logoClinic} alt="clinic-icon"/>
                     </div>
+                    </Link>
             </div>
 
-            <div className="space-y-4 border-t border-white h-4/5 mt-14">
+            <div className="space-y-4  h-4/5 mt-14">
                 <div className="mt-14">
                     <button onClick={() => toggleDropDown("clinic")} className="w-full transition-transform">
                         <div className="flex items-center p-4 space-x-4 hover:bg-slate-600 transition-colors">

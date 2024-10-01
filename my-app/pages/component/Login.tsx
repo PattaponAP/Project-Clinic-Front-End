@@ -1,14 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { loginAuth } from '../api/POST/LoginAuth';
 import Cookies from 'js-cookie';
-import router from 'next/router';
 
 interface LoginProps {
     onLogin: (status: boolean) => void;
     name: (name: string) => void; 
 }
 
-export const Login: React.FC<LoginProps> = ({ onLogin, name }) => {
+export const Login = ({ onLogin, name } : LoginProps) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -20,7 +19,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, name }) => {
             try {
                 const res = await loginAuth({ username, password });
                 console.log(res)
-                Cookies.set('token', res.token, { expires: 1 });
+                Cookies.set('token', res.data.jwt, { expires: 1 });
                 setError('')
                 onLogin(true);
 
