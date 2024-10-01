@@ -7,3 +7,18 @@
 .scrollbar-hidden {
     scrollbar-width: none;
 }
+
+
+.refresh-spin {
+    display: inline-block; /* เพื่อให้สามารถจัดแนวได้ */
+    animation: spin 5s linear infinite; /* ปรับระยะเวลาและความเร็วของการหมุน */
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

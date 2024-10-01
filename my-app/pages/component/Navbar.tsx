@@ -44,7 +44,7 @@ export const NavBar = () => {
                         className={`pl-16 overflow-hidden transition-[max-height] duration-300 ease-in-out ${openDropdown === "clinic" ? "max-h-screen" : "max-h-0"
                             }`}
                     >
-                        <Link href={"/take-the-queue"}><div className="py-4 hover:bg-gray-600 p-2">รับผู้ป่วยเข้าคิว</div></Link>
+                        <Link href={"/take-queue"}><div className="py-4 hover:bg-gray-600 p-2">รับผู้ป่วยเข้าคิว</div></Link>
                         <Link href={"/list-queue"}><div className="py-4 hover:bg-gray-600 p-2">ดูการคิวทั้งหมด</div></Link>
                         <Link href={"/list-payment"}><div className="py-4 hover:bg-gray-600 p-2">รับยาชำระเงิน</div></Link>
                     </div>
@@ -93,7 +93,7 @@ export const NavBar = () => {
             </div>
 
             <div className="p-4 mt-auto">
-                <button onClick={handleLogout} className="w-full border border-white p-2 rounded-lg hover:bg-red-500 transition-colors">
+                <button onClick={handleLogout} className="w-full border border-white p-2 rounded-lg hover:bg-red-500 hover:border-[#042446] transition-colors">
                     Sign Out
                 </button>
             </div>

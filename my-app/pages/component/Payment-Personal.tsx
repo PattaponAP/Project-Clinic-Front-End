@@ -23,7 +23,7 @@ export const PaymentPN = () => {
                         <div className=" absolute right-20 top-[10px]">
                             <button
                                 onClick={() => setIsOpenPopup(true)}
-                                className="p-2 border border-black rounded-xl hover:bg-green-200"
+                                className="p-2 border border-white rounded-xl bg-[#042446] text-white hover:bg-white hover:border-black hover:text-black"
                             >
                                 เพิ่มยา
                             </button>

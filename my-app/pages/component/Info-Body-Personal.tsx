@@ -74,7 +74,7 @@ export const InfoBodyPersonal = ({ buttonCheck }: InfoBodyProps) => {
                     <div className="w-full flex justify-end items-end">
                         <button
                             onClick={handleButtonClick} 
-                            className="border border-black hover:bg-gray-500 p-4 px-8 rounded-xl transition-colors">
+                            className="bg-[#042446] text-white p-5 border px-8 rounded-xl transition-colors hover:bg-white hover:border-black hover:text-[#042446] hover:shadow-[8px_5px_5px_rgba(0,0,0,0.5)]">
                             เข้าคิวรักษา
                         </button>
                     </div>

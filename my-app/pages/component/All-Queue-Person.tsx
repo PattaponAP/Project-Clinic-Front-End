@@ -11,7 +11,7 @@ export const AllQueuePerson = ({ queue }: { queue: { id: number; name: string } 
                 {queue.name}
             </div>
 
-            <Link href={`/examination/user/${queue.id}`} className="p-1 border border-black rounded-lg w-1/12 hover:bg-black transition-colors text-center">
+            <Link href={`/examination/user/${queue.id}`} className="p-1 text-white border bg-[#042446] rounded-lg w-1/12 hover:bg-white hover:text-black hover:border-black transition-colors text-center">
                 รักษา
             </Link>
         </div>
