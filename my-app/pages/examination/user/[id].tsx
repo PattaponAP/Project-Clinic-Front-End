@@ -2,7 +2,7 @@ import GetPatienById from '@/pages/api/GET/GetPatienById';
 import InfoBodyPersonal from '@/pages/component/Info-Body-Personal';
 import InfoPersonal from '@/pages/component/Info-Personal';
 import { Loading } from '@/pages/component/Loading/Loading';
-import PaymentPN from '@/pages/component/Payment-Personal';
+import { PaymentPN } from '@/pages/component/Payment-Personal';
 import ProcedurePN from '@/pages/component/Procedure-Personal';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -14,6 +14,7 @@ type UserInfo = {
     address: string;
     ucs: boolean;
     gender: string;
+    date_of_birth: string
 };
 
 type UserInfoBody = {
@@ -26,6 +27,8 @@ type UserInfoBody = {
     allergy: string;
 };
 
+
+
 export default function ExaminationDetail() {
     const router = useRouter();
     const { id } = router.query;
@@ -34,17 +37,19 @@ export default function ExaminationDetail() {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [showBill, setShowBill] = useState(false)
+
 
     useEffect(() => {
+        
         const fetchData = async () => {
             if (!id) return;
 
             try {
-                const res = await GetPatienById(id);
-                console.log("RES : ", res)
-                if (res && Array.isArray(res) && res.length > 0) {
-                    setUserInfo(res[0]); 
-                    setUserInfoBody(res[0])
+                const res = await GetPatienById(id);                
+                if (res.data && Array.isArray(res.data) && res.data.length > 0) {
+                    setUserInfo(res.data[0]); 
+                    setUserInfoBody(res.data[0])
                 } else {
                     setError('No valid data found');
                 }
@@ -53,13 +58,14 @@ export default function ExaminationDetail() {
             } finally {
                 setLoading(false);
             }
+            
         };
 
         fetchData();
     }, [id]);
 
     if (loading) {
-        return <Loading/>;
+        return <Loading size={150}/>;
     }
 
     if (error) {
@@ -83,17 +89,9 @@ export default function ExaminationDetail() {
             </div>
 
             <div>
-                <ProcedurePN />
+                <PaymentPN userId={id}/>
             </div>
 
-            <div>
-                <PaymentPN />
-            </div>
-
-            <div className="flex justify-center space-x-8 items-center ">
-                <button className="p-2 px-8 border border-black bg-[#042446] text-white rounded-xl shadow-xl hover:bg-white hover:text-black transition-colors"> บันทึกข้อมูล </button>
-                <button className="p-2 px-8 border border-black bg-[#042446] text-white rounded-xl shadow-xl hover:bg-white hover:text-black transition-colors"> พิมพ์ใบรับรองแพทย์ </button> 
-            </div>
         </div>
     );
 }

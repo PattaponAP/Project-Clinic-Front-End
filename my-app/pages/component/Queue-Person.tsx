@@ -7,7 +7,11 @@ type userProps = {
     patient_daily_id: number;
     full_name: string;
     on_create: string;
-    symptom: string; 
+    symptom: string;
+};
+
+const extractTime = (isoString: string) => {
+    return isoString.split("T")[1].slice(0, 5); 
 };
 
 export const QueuePersonal = () => {
@@ -20,8 +24,8 @@ export const QueuePersonal = () => {
         setError(null);
 
         try {
-            const data = await GetQueue();
-            setQueueData(data);
+            const response = await GetQueue();
+            setQueueData(response.data);
         } catch (error) {
             setError("Failed to fetch queue data");
         } finally {
@@ -40,7 +44,7 @@ export const QueuePersonal = () => {
     }, []);
 
     if (isLoading) {
-        return <Loading/>;
+        return <Loading size={150}/>;
     }
 
     if (error) {
@@ -64,8 +68,8 @@ export const QueuePersonal = () => {
                             <tr key={info.id} className="hover:bg-black hover:bg-opacity-10">
                                 <td className="p-2 border border-black text-center">{info.patient_daily_id}</td>
                                 <td className="p-2 border border-black text-center">{info.full_name}</td>
-                                <td className="p-2 border border-black text-center">{info.on_create}</td>
-                                <td className="p-2 border border-black text-center">{info.symptom}</td> {/* แสดงข้อมูลอาการ */}
+                                <td className="p-2 border border-black text-center">{extractTime(info.on_create)}</td>
+                                <td className="p-2 border border-black text-center">{info.symptom}</td>
                             </tr>
                         ))}
                     </tbody>

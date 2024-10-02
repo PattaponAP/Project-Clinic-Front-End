@@ -21,13 +21,13 @@ export default function TakeQueue() {
     <div>
         <ManagementInfo setCheck={setCheck}/>
 
-        {check && (<PopupCheck check={true}/>)}
+        {check && (<PopupCheck check={check}/>)}
    
       <div className=" relative border border-black">
         <div className="absolute text-[28px] top-[-25px] left-[25px] px-4 bg-white">
           ลำดับการเข้ารักษา
         </div>
-        <div className="p-8">
+        <div className="p-8 ">
           <QueuePersonal />
         </div>
       </div>

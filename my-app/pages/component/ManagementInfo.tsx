@@ -59,7 +59,7 @@ export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
     setLoading(true);
     try {
       const response = await PutPatient(formDataTest);
-      if (response === 200) {
+      if (response) {
         setCheck(true);
       }
     } catch (error) {

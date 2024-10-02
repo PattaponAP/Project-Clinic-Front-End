@@ -1,9 +1,9 @@
 import axios from 'axios';
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export const GetQueue = async() => {
+export const GetMedSetById = async(id : any) => {
   try {
-    const res = await axios.get(`${API_URL}/clinic/que`);
+    const res = await axios.get(`${API_URL}/mgmt/medSet?GetBy=id&GetDoc=${id}`);
     return res;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -17,4 +17,4 @@ export const GetQueue = async() => {
   }
 }
 
-export default GetQueue;
+export default GetMedSetById;

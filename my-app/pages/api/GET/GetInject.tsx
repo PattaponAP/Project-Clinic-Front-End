@@ -1,10 +1,12 @@
 import axios from 'axios';
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export const GetQueue = async() => {
+export const GetInject = async() => {
   try {
-    const res = await axios.get(`${API_URL}/clinic/que`);
+    
+    const res = await axios.get(`${API_URL}/mgmt/inject?GetBy=all`);
     return res;
+
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error("Response data:", error.response?.data);
@@ -17,4 +19,4 @@ export const GetQueue = async() => {
   }
 }
 
-export default GetQueue;
+export default GetInject;

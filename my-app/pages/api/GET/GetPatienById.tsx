@@ -4,7 +4,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export const GetPatienById = async(id : any) => {
   try {
     const res = await axios.get(`${API_URL}/mgmt/patient?GetBy=qid&GetDoc=${id}`);
-    return res.data;
+    return res;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error("Response data:", error.response?.data);

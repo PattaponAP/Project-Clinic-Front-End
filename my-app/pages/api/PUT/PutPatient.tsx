@@ -40,7 +40,7 @@ export const PutPatient = async (formData: PatientData) => {
         },
       }); 
       
-      return res.status;
+      return res;
     
   } catch (error) {
     if (axios.isAxiosError(error)) {

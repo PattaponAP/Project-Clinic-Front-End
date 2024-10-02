@@ -1,10 +1,13 @@
 import { RiLoader4Line } from "react-icons/ri";
 
-export const Loading = () => {
-    return (
-        <div className="flex justify-center items-center h-full text-gray-400">
-            <RiLoader4Line size={80} className="refresh-spin"/>
-            Loading . . .
-        </div>
-    )
+type sizeP = {
+    size : number
 }
+
+export const Loading = ({size} : sizeP) => {
+    return (
+        <div className={`flex justify-center items-center text-gray-400 h-full`}>
+            <RiLoader4Line size={size} className="refresh-spin" />
+        </div>
+    );
+};

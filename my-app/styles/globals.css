@@ -11,7 +11,7 @@
 
 .refresh-spin {
     display: inline-block; /* เพื่อให้สามารถจัดแนวได้ */
-    animation: spin 5s linear infinite; /* ปรับระยะเวลาและความเร็วของการหมุน */
+    animation: spin 1s linear infinite; /* ปรับระยะเวลาและความเร็วของการหมุน */
 }
 
 @keyframes spin {

@@ -8,11 +8,16 @@ type InfoPersonalProps = {
     address: string;
     ucs: boolean;
     gender: string;
+    date_of_birth: string
   };
 };
 
 const InfoPersonal: React.FC<InfoPersonalProps> = ({ userInfo }) => {
 
+  const extractTime = (birth_day : string) => {
+    return birth_day.split("T")[0]
+    
+}
   return (
     <div className="text-nowrap">
       <div className="space-y-4">
@@ -97,6 +102,7 @@ const InfoPersonal: React.FC<InfoPersonalProps> = ({ userInfo }) => {
           <div className="relative col-span-2">
             <input
               type="text"
+              value={extractTime(userInfo.date_of_birth)}
               className="border border-black rounded-xl p-3 w-full"
               readOnly
             />
