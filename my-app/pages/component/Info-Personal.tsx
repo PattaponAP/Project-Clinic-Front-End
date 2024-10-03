@@ -2,7 +2,7 @@ import React from "react";
 
 type InfoPersonalProps = {
   userInfo: {
-    patient_id: string;
+    thai_id: string;
     full_name: string;
     tel: string;
     address: string;
@@ -25,7 +25,7 @@ const InfoPersonal: React.FC<InfoPersonalProps> = ({ userInfo }) => {
           <div className="col-span-1 relative">
             <input
               type="text"
-              value={userInfo.patient_id}
+              value={userInfo.thai_id}
               className="border border-black rounded-xl p-3 w-full"
               readOnly
             />

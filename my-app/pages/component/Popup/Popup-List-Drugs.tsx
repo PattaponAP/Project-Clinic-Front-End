@@ -19,9 +19,14 @@ type MedSetInfo = {
   medicine_id: number;
   medicine_name: string;
   medicine_usage_frequency_id: number;
-  medicine_usage_frequency_name: string;
   medicine_usage_time_id: number;
-  medicine_usage_time_name: string;
+  amount: number;
+};
+
+type MedForm = {
+  medicine_id: number;
+  medicine_usage_frequency_id: number;
+  medicine_usage_time_id: number;
   amount: number;
 };
 
@@ -30,6 +35,7 @@ const DrugItem: React.FC<SelectedDrugItemProps> = ({ drug }) => {
   const [medSetInfo, setMedSetInfo] = useState<MedSetInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,7 +77,6 @@ const DrugItem: React.FC<SelectedDrugItemProps> = ({ drug }) => {
           <div>
             {drug.type === "med" && medInfo.map(med => (
               <div key={med.id} className="text-black text-[18px] ">
-                  <Drung medicien_name={med.name} frequency={0} time={0} amount={0}/>
               </div>
             ))}
             {drug.type === "set" && medSetInfo.map(set => (

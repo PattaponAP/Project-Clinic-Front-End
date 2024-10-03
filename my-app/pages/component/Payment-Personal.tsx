@@ -21,9 +21,10 @@ type PatientData = {
 
 interface PaymentPNProps {
   userId: string | string[] | undefined;
+  thaiId: string | undefined
 }
 
-export const PaymentPN = ({ userId }: PaymentPNProps) => {
+export const PaymentPN = ({ userId, thaiId }: PaymentPNProps) => {
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const [selectedDrugs, setSelectedDrugs] = useState<string[]>([]);
   const [earWash, setEarWash] = useState(false);

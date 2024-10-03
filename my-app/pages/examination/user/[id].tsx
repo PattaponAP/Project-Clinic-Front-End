@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 type UserInfo = {
-    patient_id: string;
+    thai_id: string;
     full_name: string;
     tel: string;
     address: string;
@@ -16,6 +16,7 @@ type UserInfo = {
     gender: string;
     date_of_birth: string
 };
+
 
 type UserInfoBody = {
     weight: number;
@@ -89,7 +90,7 @@ export default function ExaminationDetail() {
             </div>
 
             <div>
-                <PaymentPN userId={id}/>
+                <PaymentPN userId={id} thaiId={userInfo?.thai_id} />
             </div>
 
         </div>

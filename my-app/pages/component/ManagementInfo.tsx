@@ -10,22 +10,6 @@ interface InfoBodyProps {
 export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
   const [loading, setLoading] = useState(false);
 
-  const formDataTest = {
-    thai_id: "123456789999",
-    full_name: "PattaponAP",
-    tel: "000-000-000",
-    address: "0123456789",
-    gender: "transformers",
-    date_of_birth: "2024-10-20",
-    ucs: false,
-    height: 17,
-    weight: 70,
-    blood_pressure: "120/80",
-    heart_rate: 75,
-    temperature: 36,
-    allergy: "ไม่มี",
-    symptom: "อาการปวดหัว",
-  };
 
   const [formData, setFormData] = useState({
     thai_id: "",
@@ -34,12 +18,12 @@ export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
     address: "",
     gender: "",
     date_of_birth: "",
-    usc: false,
-    height: "",
-    weight: "",
+    ucs: false,
+    height: 0,
+    weight: 0,
     blood_pressure: "",
-    heart_rate: "",
-    temperature: "",
+    heart_rate: 0,
+    temperature: 0,
     allergy: "",
     symptom: "",
   });
@@ -58,7 +42,7 @@ export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const response = await PutPatient(formDataTest);
+      const response = await PutPatient(formData);
       if (response) {
         setCheck(true);
       }
@@ -176,7 +160,7 @@ export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
 
                 <InputField
                   type="text"
-                  name="symptoms"
+                  name="symptom"
                   value={formData.symptom}
                   onChange={handleChange}
                   label="อาการ"
