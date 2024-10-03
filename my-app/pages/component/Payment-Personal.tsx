@@ -21,12 +21,11 @@ type PatientData = {
 
 interface PaymentPNProps {
   userId: string | string[] | undefined;
-  thaiId: string | undefined
+  thaiId: number | string | undefined
 }
 
 export const PaymentPN = ({ userId, thaiId }: PaymentPNProps) => {
   const [isOpenPopup, setIsOpenPopup] = useState(false);
-  const [selectedDrugs, setSelectedDrugs] = useState<string[]>([]);
   const [earWash, setEarWash] = useState(false);
   const [myringo, setMyringo] = useState(false);
   const [tapping, setTapping] = useState(false);
@@ -172,6 +171,7 @@ export const PaymentPN = ({ userId, thaiId }: PaymentPNProps) => {
 
           {isOpenPopup && (
             <PopupListDrug
+              thaiId={thaiId}
               onClose={() => setIsOpenPopup(false)}
             />
           )}

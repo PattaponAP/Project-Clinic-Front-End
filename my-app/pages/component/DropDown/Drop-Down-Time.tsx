@@ -3,7 +3,7 @@ import GetMedicineTime from "@/pages/api/GET/GetMedicineTime";
 import { Loading } from "../Loading/Loading";
 
 type TimeProp = {
-  valueT: number; // ค่าเริ่มต้นที่ส่งเข้าไป
+  valueT: number; 
 };
 
 interface Option {
@@ -28,7 +28,7 @@ const DropdownTime = ({ valueT }: TimeProp) => {
           const res = await GetMedicineTime();
           if (res) {
             setOptions(res.data);
-            localStorage.setItem("medicineTimeOptions", JSON.stringify(res.data)); // Cache the response
+            localStorage.setItem("medicineTimeOptions", JSON.stringify(res.data)); 
           } else {
             setError("No data found");
           }

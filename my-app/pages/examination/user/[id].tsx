@@ -3,7 +3,6 @@ import InfoBodyPersonal from '@/pages/component/Info-Body-Personal';
 import InfoPersonal from '@/pages/component/Info-Personal';
 import { Loading } from '@/pages/component/Loading/Loading';
 import { PaymentPN } from '@/pages/component/Payment-Personal';
-import ProcedurePN from '@/pages/component/Procedure-Personal';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -87,6 +86,7 @@ export default function ExaminationDetail() {
                 <div className="p-8">
                     {userInfoBody ? <InfoBodyPersonal userInfo={userInfoBody} /> :<div>No data available</div>}
                 </div>
+                
             </div>
 
             <div>

@@ -3,7 +3,7 @@ import GetMedicineFequency from "@/pages/api/GET/GetMedicineFequency";
 import { Loading } from "../Loading/Loading";
 
 type TimeProp = {
-  valueF: number; // ค่าเริ่มต้นที่ส่งเข้าไป
+  valueF: number; 
 };
 
 interface Option {

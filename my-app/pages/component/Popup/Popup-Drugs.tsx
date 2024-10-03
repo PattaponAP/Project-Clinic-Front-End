@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import GetSearchMed from "@/pages/api/GET/GetSearchMed";
 import DrugItem from "./Popup-List-Drugs";
 import { ImCross } from "react-icons/im";
+import PostDispense from "@/pages/api/POST/PostDispense";
 
 interface PopupProps {
   onClose: (close: boolean) => void;
+  thaiId: number | string | undefined
 }
 
 type DrugInfo = {
@@ -12,11 +14,19 @@ type DrugInfo = {
   type: string;
 };
 
-export const PopupDrugs = ({ onClose }: PopupProps) => {
+type Dispense = {
+  medicine_id: number;
+  medicine_usage_frequency_id: number;
+  medicine_usage_time_id: number;
+  amount: number;
+};
+
+export const PopupDrugs = ({ onClose, thaiId }: PopupProps) => {
   const [drugs, setDrugs] = useState<{ [key: string]: DrugInfo }>({});
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedDrugs, setSelectedDrugs] = useState<DrugInfo[]>([]);
   const [filteredDrugs, setFilteredDrugs] = useState<string[]>([]);
+  const [formDispense, setFormDispense] = useState<Dispense[]>([]); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,10 +64,25 @@ export const PopupDrugs = ({ onClose }: PopupProps) => {
     setFilteredDrugs([]);
   };
 
+  const handleFormDispenseUpdate = (newDispense: Dispense[]) => {
+    setFormDispense(prev => [...prev, ...newDispense]);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      if (thaiId !== undefined) {
+        const res = await PostDispense({ formData: formDispense, pdid: thaiId });
+        onClose(false);
+        console.log("ข้อมูลถูกส่งเรียบร้อยแล้ว");
+      }
+    } catch (error) {
+        console.error("Error sending data:", error);
+    }
+};
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 w-full h-screen flex flex-col justify-center items-center p-4 z-10 min-w-[1000px]">
-      <div className="bg-white w-full min-w-5xl max-w-5xl h-4/5 p-6 rounded-xl overflow-hidden">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10 overflow-auto">
+      <div className="bg-white p-8 rounded-xl min-w-[800px] xl:min-w-[1000px] ">
         <div className="relative flex items-center mb-4">
           <input
             type="text"
@@ -91,15 +116,27 @@ export const PopupDrugs = ({ onClose }: PopupProps) => {
         )}
 
         <div className="mt-6">
-          <h2 className="text-lg font-semibold">ยาที่เลือก</h2>
-          <div className="max-h-full overflow-y-auto rounded-lg p-2">
+          <h2 className="text-lg font-semibold ">ยาที่เลือก</h2>
+          <div className="rounded-lg p-2 h-[500px] overflow-auto scrollbar-hidden">
             {selectedDrugs.map(drug => (
               <DrugItem 
                 key={drug.id} 
                 drug={{ id: drug.id, type: drug.type }} 
+                onUpdateDispense={handleFormDispenseUpdate} 
               />
             ))}
           </div>
+
+          <div className="flex justify-center">
+          <button
+            type="button"
+            className="bg-[#042446] border border-black text-white px-8 p-4 rounded-xl mt-4  hover:text-black hover:bg-white"
+            onClick={handleSubmit} 
+          >
+            บันทึกข้อมูล
+          </button>
+          </div>
+
         </div>
       </div>
     </div>

@@ -10,8 +10,8 @@
 
 
 .refresh-spin {
-    display: inline-block; /* เพื่อให้สามารถจัดแนวได้ */
-    animation: spin 1s linear infinite; /* ปรับระยะเวลาและความเร็วของการหมุน */
+    display: inline-block; 
+    animation: spin 1s linear infinite; 
 }
 
 @keyframes spin {
