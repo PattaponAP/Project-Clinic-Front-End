@@ -1,6 +1,9 @@
+import GetBillById from "@/pages/api/GET/GetBillData";
 import PutBill from "@/pages/api/PUT/PutBill";
-import { IoMdCheckmark } from "react-icons/io";
-import { RxCross2 } from "react-icons/rx";
+import bill_printer from "@/printer/bill_printer";
+import { useState } from 'react';
+import { IoMdCheckmark } from 'react-icons/io';
+import { RxCross2 } from 'react-icons/rx';
 
 type Medicine = {
   medicine: string;
@@ -38,15 +41,51 @@ const formatAppointmentDate = (dateString: string) => {
 };
 
 const DropDownInfoPatient = ({ info, onPaymentSuccess }: DropDownInfoPatientProps) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const handlePayment = async () => {
+    setLoading(true);
+    setError(null);
     try {
       const res = await PutBill(info.id); 
-      if (res) {
-        console.log(res);
+      if (res && res.status === 200) { // Check for success status
         onPaymentSuccess(); // Call the success callback
+      } else {
+        throw new Error('Failed to process payment');
       }
     } catch (error) {
-      console.error("Payment processing failed:", error);
+      setError("Payment processing failed. Please try again.");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePrint = async () => {
+    console.log(info.id)
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await GetBillById(info.id); 
+      console.log(res)
+        if (res) {
+          bill_printer(
+            res[0].id, 
+            res[0].date, 
+            res[0].thai_id, 
+            res[0].full_name, 
+            res[0].appointment, 
+            res[0].items, 
+            res[0].price 
+        );
+  
+      }
+    } catch (error) {
+      setError("Failed to fetch bill data. Please try again.");
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,9 +94,21 @@ const DropDownInfoPatient = ({ info, onPaymentSuccess }: DropDownInfoPatientProp
       {/* Header ข้อมูลผู้ป่วย */}
       <div className="flex justify-between text-2xl font-semibold mb-6 border-b-2 border-blue-300 pb-2 text-blue-600">
         ข้อมูลผู้ป่วย
-        <div>
-          <button onClick={handlePayment} className="border p-2 px-4 rounded-lg bg-green-600 text-white text-lg hover:bg-green-700 transition">
-            จ่ายเงิน
+        <div className="space-x-4">
+          <button 
+            onClick={handlePrint} 
+            className={`border p-2 px-4 rounded-lg ${loading ? "bg-gray-400" : "bg-blue-600"} text-white text-lg hover:bg-green-700 transition`}
+            disabled={loading}
+          >
+            {loading ? "กำลังพิมพ์..." : "พิมพ์ใบเสร็จ"}
+          </button>
+
+          <button 
+            onClick={handlePayment} 
+            className={`border p-2 px-4 rounded-lg ${loading ? "bg-gray-400" : "bg-green-600"} text-white text-lg hover:bg-green-700 transition`}
+            disabled={loading}
+          >
+            {loading ? "กำลังจ่าย..." : "จ่ายเงิน"}
           </button>
         </div>
       </div>
@@ -65,11 +116,12 @@ const DropDownInfoPatient = ({ info, onPaymentSuccess }: DropDownInfoPatientProp
       {/* ข้อมูลผู้ป่วย */}
       <div className="mb-6 space-y-3 px-4">
         <div className="w-1/2 text-base ">
-          <span className="font-medium">ชื่อผู้ป่วย : </span>
-          {info.patient_name}
+          ชื่อผู้ป่วย :          
+          <span className="font-medium text-[18px]"> {info.patient_name} </span>
         </div>
         <div className="text-base">
-          <span className="font-medium">การวินิจฉัย : </span> {info.diagnose}
+          การวินิจฉัย : 
+          <span className="font-medium text-[18px]"> {info.diagnose} </span> 
         </div>
         <div className="text-base ">
           หมายเหตุ :
@@ -88,7 +140,7 @@ const DropDownInfoPatient = ({ info, onPaymentSuccess }: DropDownInfoPatientProp
               <div
                 className="flex px-6 py-2 rounded-lg bg-gray-50 border border-gray-200 hover:bg-gray-100 transition-all"
                 key={index}
-              >
+              > 
                 <div className="text-sm w-1/4">
                   ชื่อยา :
                   <span className="font-medium text-[18px] "> {med.medicine}</span>
@@ -117,15 +169,17 @@ const DropDownInfoPatient = ({ info, onPaymentSuccess }: DropDownInfoPatientProp
         <div className="px-4 flex justify-between text-base">
           <div className="flex items-center">
             <div>ทำความสะอาดหู</div>
-            {info.ear_cleaning ? <IoMdCheckmark className="text-green-500 ml-4" size={30} /> : <RxCross2 className="text-red-500 ml-4" size={30} />}
+            {info.ear_cleaning ? 
+            <IoMdCheckmark 
+            className="text-green-500 ml-4 border border-black " size={30} /> : <RxCross2 className="text-red-500 ml-4 border border-black" size={30} />}
           </div>
           <div className="flex items-center">
             <div>ตรวจเยื่อหู</div>
-            {info.myringo ? <IoMdCheckmark className="text-green-500 ml-4" size={30} /> : <RxCross2 className="text-red-500 ml-4" size={30} />}
+            {info.myringo ? <IoMdCheckmark className="text-green-500 ml-4 border border-black" size={30} /> : <RxCross2 className="text-red-500 ml-4 border border-black" size={30} />}
           </div>
           <div className="flex items-center">
             <div>ตรวจการกระทบ</div>
-            {info.tapping ? <IoMdCheckmark className="text-green-500 ml-4" size={30} /> : <RxCross2 className="text-red-500 ml-4" size={30} />}
+            {info.tapping ? <IoMdCheckmark className="text-green-500 ml-4 border border-black" size={30} /> : <RxCross2 className="text-red-500 ml-4 border border-black" size={30} />}
           </div>
         </div>
       </div>
@@ -138,6 +192,11 @@ const DropDownInfoPatient = ({ info, onPaymentSuccess }: DropDownInfoPatientProp
           {formatAppointmentDate(info.appointment)}
         </div>
       </div>
+
+      {/* Error Message */}
+      {error && (
+        <div className="text-red-500 text-base text-center">{error}</div>
+      )}
     </div>
   );
 };

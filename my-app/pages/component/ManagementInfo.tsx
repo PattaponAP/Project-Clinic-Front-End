@@ -197,7 +197,7 @@ export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
                   value={formData.allergy}
                   onChange={handleChange}
                   label="แพ้ยา"
-                  className="border border-red-600 rounded-xl p-3 w-full focus:outline-none focus:border-red-200 text-red-600"
+                  className="rounded-xl p-3 w-full "
                 />
               </div>
             </div>

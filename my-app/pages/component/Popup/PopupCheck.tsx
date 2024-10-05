@@ -14,7 +14,6 @@ export const PopupCheck = ({check} : CheckProps) => {
             <div 
             className="h-2/6 w-3/12  bg-slate-200 rounded-xl p-8 flex flex-col items-center justify-center shadow-xl animation-popup">
 
-            {/*Content*/}
                 <div className="flex flex-col items-center">
                     <div>   
                         {check ? 

@@ -92,7 +92,6 @@ export default function ListPayment() {
               )}
             </div>
 
-            {/* แสดง DropDownInfoPatient เมื่อกดดูข้อมูล */}
             {status[index] && (
               <DropDownInfoPatient info={q} onPaymentSuccess={handleRefresh} />
             )}

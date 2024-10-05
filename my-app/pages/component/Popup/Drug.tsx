@@ -37,7 +37,7 @@ export const Drung = ({
 
   const [amount, setAmount] = useState<number>(initialAmount || 0);
   const [isConfirmed, setIsConfirmed] = useState<boolean>(false);
-  const [isDataFetched, setIsDataFetched] = useState<boolean>(false); // State สำหรับตรวจสอบว่าได้ดึงข้อมูลแล้ว
+  const [isDataFetched, setIsDataFetched] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchOptions = async () => {
@@ -49,9 +49,8 @@ export const Drung = ({
 
         setFrequencyOptions(frequencyResponse.data);
         setTimeOptions(timeResponse.data);
-        setIsDataFetched(true); // อัพเดทสถานะเมื่อดึงข้อมูลเสร็จ
+        setIsDataFetched(true); 
 
-        // กำหนดค่าเริ่มต้นถ้ายังไม่มีการเลือก
         if (frequencyResponse.data.length > 0 && selectedFrequency === null) {
           setSelectedFrequency(frequencyResponse.data[0].id);
         }
@@ -94,7 +93,7 @@ export const Drung = ({
           <select
             value={selectedFrequency ?? 1}
             onChange={(e) => setSelectedFrequency(Number(e.target.value))}
-            className="p-2 px-6 rounded-xl border border-black bg-gray-200"
+            className="p-2 px-6 rounded-xl border border-black bg-gray-200 w-[120px]"
           >
             {frequencyOptions.map((option) => (
               <option key={option.id} value={option.id}>
@@ -112,7 +111,7 @@ export const Drung = ({
           <select
             value={selectedTime ?? 1}
             onChange={(e) => setSelectedTime(Number(e.target.value))}
-            className="p-2 px-6 rounded-xl border border-black bg-gray-200"
+            className="p-2 px-6 rounded-xl border border-black bg-gray-200 w-[120px]"
           >
             {timeOptions.map((option) => (
               <option key={option.id} value={option.id}>
@@ -120,7 +119,7 @@ export const Drung = ({
               </option>
             ))}
           </select>
-          <div className="absolute top-[-12px] bg-gray-200 px-2 text-[15px] left-[10px]">
+          <div className="absolute top-[-12px] bg-gray-200 px-2 text-[15px] left-[10px] ">
             เวลา
           </div>
         </div>

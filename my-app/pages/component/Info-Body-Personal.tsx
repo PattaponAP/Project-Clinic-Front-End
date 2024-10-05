@@ -90,7 +90,7 @@ export const InfoBodyPersonal = ({ userInfo }: InfoPersonalBodyProps) => {
                 className="border border-black rounded-xl p-3 w-full"
                 readOnly
               />
-              <div className="absolute translate-x-[12px] translate-y-[-62px] px-4 bg-white">
+              <div className="absolute translate-x-[12px] translate-y-[-62px] px-4 bg-white ">
                 ความดัน
               </div>
             </div>
@@ -100,10 +100,10 @@ export const InfoBodyPersonal = ({ userInfo }: InfoPersonalBodyProps) => {
             <input
               type="text"
               value={userInfo.allergy} 
-              className="border border-red-600 rounded-xl p-3 w-full focus:outline-none focus:border-red-200 text-red-600"
+              className=" rounded-xl p-3 w-full border border-black"
               readOnly
             />
-            <div className="absolute translate-x-[12px] translate-y-[-62px] px-4 bg-white text-red-500">
+            <div className="absolute translate-x-[12px] translate-y-[-62px] px-4 bg-white">
               แพ้ยา
             </div>
           </div>

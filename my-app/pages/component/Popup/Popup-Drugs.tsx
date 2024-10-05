@@ -22,6 +22,7 @@ type Dispense = {
 };
 
 export const PopupDrugs = ({ onClose, pdid }: PopupProps) => {
+  const [box, setBox] = useState([])
   const [drugs, setDrugs] = useState<{ [key: string]: DrugInfo }>({});
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedDrugs, setSelectedDrugs] = useState<DrugInfo[]>([]);
@@ -65,6 +66,7 @@ export const PopupDrugs = ({ onClose, pdid }: PopupProps) => {
   };
 
   const handleFormDispenseUpdate = (newDispense: Dispense[]) => {
+    console.log(newDispense)
     setFormDispense(prev => [...prev, ...newDispense]);
   };
 

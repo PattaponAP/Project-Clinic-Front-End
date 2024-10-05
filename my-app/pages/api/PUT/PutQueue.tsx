@@ -7,7 +7,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export const PutQueue = async (qid : number) => {
   try {
     const res = await axios.put(`${API_URL}/clinic/que?qid=${qid}`) 
-    return qid
+    return res
     
   } catch (error) {
     if (axios.isAxiosError(error)) {
