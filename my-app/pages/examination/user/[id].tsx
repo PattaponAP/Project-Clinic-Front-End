@@ -1,47 +1,98 @@
+import GetPatienById from '@/pages/api/GET/GetPatienById';
 import InfoBodyPersonal from '@/pages/component/Info-Body-Personal';
 import InfoPersonal from '@/pages/component/Info-Personal';
-import PaymentPN from '@/pages/component/Payment-Personal';
-import ProcedurePN from '@/pages/component/Procedure-Personal';
+import { Loading } from '@/pages/component/Loading/Loading';
+import { PaymentPN } from '@/pages/component/Payment-Personal';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+
+type UserInfo = {
+    thai_id: string;
+    full_name: string;
+    tel: string;
+    address: string;
+    ucs: boolean;
+    gender: string;
+    date_of_birth: string
+};
+
+
+type UserInfoBody = {
+    weight: number;
+    height: number ;
+    heart_rate: number ;
+    temperature: number ;
+    symptom: boolean; 
+    blood_pressure: string; 
+    allergy: string;
+};
 
 
 
 export default function ExaminationDetail() {
     const router = useRouter();
     const { id } = router.query;
+    const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+    const [userInfoBody, setUserInfoBody] = useState<UserInfoBody | null>(null);
 
-    if (!id) {
-        return <div>Loading...</div>;
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [showBill, setShowBill] = useState(false)
+
+
+    useEffect(() => {
+        
+        const fetchData = async () => {
+            if (!id) return;
+
+            try {
+                const res = await GetPatienById(id);                
+                if (res.data && Array.isArray(res.data) && res.data.length > 0) {
+                    setUserInfo(res.data[0]); 
+                    setUserInfoBody(res.data[0])
+                } else {
+                    setError('No valid data found');
+                }
+            } catch (err) {
+                setError('Error fetching patient data');
+            } finally {
+                setLoading(false);
+            }
+            
+        };
+
+        fetchData();
+    }, [id]);
+
+    if (loading) {
+        return <Loading size={150}/>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
     }
 
     return (
-        <div className="flex flex-col justify-between gap-8 h-full">
-            <div className=" relative border border-black">
+        <div className="flex flex-col justify-between gap-4 h-full">
+            <div className="relative border border-black">
                 <div className="absolute text-[28px] top-[-25px] left-[25px] px-4 bg-white">ผู้ป่วย</div>
                 <div className="p-8">
-                    <InfoPersonal />
+                    {userInfo ? <InfoPersonal userInfo={userInfo} /> : <div>No data available</div>}
                 </div>
             </div>
 
-            <div className=" relative border border-black">
+            <div className="relative border border-black">
                 <div className="absolute text-[28px] top-[-25px] left-[25px] px-4 bg-white">ข้อมูลร่างกาย</div>
                 <div className="p-8">
-                    <InfoBodyPersonal buttonCheck={false} />
+                    {userInfoBody ? <InfoBodyPersonal userInfo={userInfoBody} /> :<div>No data available</div>}
                 </div>
+                
             </div>
 
             <div>
-                <ProcedurePN />
+                <PaymentPN Id={Number(id)} thaiId={userInfo?.thai_id} name={userInfo?.full_name} />
             </div>
 
-            <div>
-                <PaymentPN />
-            </div>
-
-            <div className="flex justify-center space-x-8 items-center ">
-                    <button className="p-2 px-8 border border-black bg-[#042446] text-white rounded-xl shadow-xl hover:bg-white hover:text-black transition-colors"> บันทึกข้อมูล </button>
-                    <button className="p-2 px-8 border border-black bg-[#042446] text-white rounded-xl shadow-xl hover:bg-white hover:text-black transition-colors"> พิมพ์ใบรับรองแพทย์ </button> 
-            </div>
         </div>
     );
 }
