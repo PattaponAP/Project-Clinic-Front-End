@@ -6,7 +6,7 @@ import PostDispense from "@/pages/api/POST/PostDispense";
 
 interface PopupProps {
   onClose: (close: boolean) => void;
-  thaiId: number | string | undefined
+  pdid: number 
 }
 
 type DrugInfo = {
@@ -21,7 +21,7 @@ type Dispense = {
   amount: number;
 };
 
-export const PopupDrugs = ({ onClose, thaiId }: PopupProps) => {
+export const PopupDrugs = ({ onClose, pdid }: PopupProps) => {
   const [drugs, setDrugs] = useState<{ [key: string]: DrugInfo }>({});
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedDrugs, setSelectedDrugs] = useState<DrugInfo[]>([]);
@@ -70,10 +70,10 @@ export const PopupDrugs = ({ onClose, thaiId }: PopupProps) => {
 
   const handleSubmit = async () => {
     try {
-      if (thaiId !== undefined) {
-        const res = await PostDispense({ formData: formDispense, pdid: thaiId });
+      if (pdid) {
+        const res = await PostDispense({ formData: formDispense, pdid: pdid });
         onClose(false);
-        console.log("ข้อมูลถูกส่งเรียบร้อยแล้ว");
+        console.log(res);
       }
     } catch (error) {
         console.error("Error sending data:", error);

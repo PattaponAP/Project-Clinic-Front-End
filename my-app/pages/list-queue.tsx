@@ -5,9 +5,9 @@ import GetQueue from "./api/GET/GetQueue";
 
 type userProps = {
   id: number;
-  patient_daily_id: number;
   patient_id: string;
   full_name: string;
+  patient_daily_id: number
 };
 
 export default function ListQueue() {

@@ -47,7 +47,6 @@ export const NavBar = () => {
                     >
                         <Link href={"/take-queue"}><div className="py-4 hover:bg-gray-600 p-2">รับผู้ป่วยเข้าคิว</div></Link>
                         <Link href={"/list-queue"}><div className="py-4 hover:bg-gray-600 p-2">ดูการคิวทั้งหมด</div></Link>
-                        <Link href={"/list-payment"}><div className="py-4 hover:bg-gray-600 p-2">รับยาชำระเงิน</div></Link>
                     </div>
                 </div>
 
@@ -55,7 +54,7 @@ export const NavBar = () => {
                     <Link href="/info-patient">
                         <div className="flex items-center p-4 space-x-4 hover:bg-slate-600 transition-colors">
                             <div><GrContactInfo size={30}/></div>
-                            <div className="text-[20px]">ข้อมูลผู้ป่วย</div>
+                            <div className="text-[20px]">ผู้ป่วย / รับยาชำระเงิน</div>
                         </div>
                     </Link>
                 </div>
@@ -71,7 +70,6 @@ export const NavBar = () => {
                             }`}
                     >
                         <Link href={"/info-drug"}><div className="py-4 hover:bg-gray-600 p-2">ดูข้อมูลยาทั้งหมด</div></Link>
-                        <Link href={"/add-info-drug"}><div className="py-4 hover:bg-gray-600 p-2">เพิ่มข้อมูลยา</div></Link>
                     </div>
                 </div>
               

@@ -5,6 +5,7 @@ export const GetBill= async() => {
   try {
     
     const res = await axios.get(`${API_URL}/clinic/bill`);
+    
     return res;
 
   } catch (error) {

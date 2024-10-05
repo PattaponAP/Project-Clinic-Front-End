@@ -6,6 +6,7 @@ import { ImCross } from "react-icons/im";
 import PostProcedure from "../api/POST/PostProcedure";
 import { InjectInfo } from "./DropDown/Inject-Info";
 import PopupCheck from "./Popup/PopupCheck";
+import PutQueue from "../api/PUT/PutQueue";
 
 type PatientData = {
   pdid: number;
@@ -20,11 +21,11 @@ type PatientData = {
 };
 
 interface PaymentPNProps {
-  userId: string | string[] | undefined;
+  Id: any
   thaiId: number | string | undefined
 }
 
-export const PaymentPN = ({ userId, thaiId }: PaymentPNProps) => {
+export const PaymentPN = ({ Id }: PaymentPNProps) => {
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const [earWash, setEarWash] = useState(false);
   const [myringo, setMyringo] = useState(false);
@@ -45,8 +46,8 @@ export const PaymentPN = ({ userId, thaiId }: PaymentPNProps) => {
 
 
   const handleSubmit = async () => {
-    const patientId = Array.isArray(userId) ? parseInt(userId[0]) : Number(userId);
-    
+    const patientId = Array.isArray(Id) ? parseInt(Id[0]) : Number(Id);
+  
     const formData: PatientData = {
       pdid: patientId,
       diagnose: diagnosis,
@@ -58,21 +59,24 @@ export const PaymentPN = ({ userId, thaiId }: PaymentPNProps) => {
       annotate: notes,
       inject_id: parseFloat(injection) || 0
     };
-
+  
     try {
-      console.log(formData)
       const response = await PostProcedure(formData);
-      if (response){
-        setShowBill(true)
-        setCheck(true)
-        
+  
+      if (response) {
+        const res = await PutQueue(Id);
+        if (res) {
+          console.log(`Patient updated successfully.`);
+        }
+  
+        setShowBill(true);
+        setCheck(true);
+  
         const timer = setTimeout(() => {
           setCheck(false);
         }, 2000);
-        
-        return () => clearTimeout(timer);
       }
-     
+  
     } catch (error) {
       console.error("Error during submission:", error);
     }
@@ -171,7 +175,7 @@ export const PaymentPN = ({ userId, thaiId }: PaymentPNProps) => {
 
           {isOpenPopup && (
             <PopupListDrug
-              thaiId={thaiId}
+              pdid={Id}
               onClose={() => setIsOpenPopup(false)}
             />
           )}

@@ -3,8 +3,8 @@ import React from "react";
 
 interface InputFieldProps {
   type: string;
-  name: string;
-  value: string;
+  name: string ;
+  value: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   label: string;
   className?: string; // เพิ่ม className ที่เป็น optional

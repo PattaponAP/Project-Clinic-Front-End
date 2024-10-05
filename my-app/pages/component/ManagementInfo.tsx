@@ -143,14 +143,14 @@ export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
               <div className="grid grid-cols-[40%_auto] w-full gap-4">
                 <div className="grid grid-cols-3 gap-4">
                   <InputField
-                    type="text"
+                    type="number"
                     name="weight"
                     value={formData.weight}
                     onChange={handleChange}
                     label="น้ำหนัก"
                   />
                   <InputField
-                    type="text"
+                    type="number"
                     name="height"
                     value={formData.height}
                     onChange={handleChange}
@@ -177,14 +177,14 @@ export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
                     label="ความดัน"
                   />
                   <InputField
-                    type="text"
+                    type="number"
                     name="heart_rate"
                     value={formData.heart_rate}
                     onChange={handleChange}
                     label="ชีพจร"
                   />
                   <InputField
-                    type="text"
+                    type="number"
                     name="temperature"
                     value={formData.temperature}
                     onChange={handleChange}

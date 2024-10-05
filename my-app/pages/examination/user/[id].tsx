@@ -90,7 +90,7 @@ export default function ExaminationDetail() {
             </div>
 
             <div>
-                <PaymentPN userId={id} thaiId={userInfo?.thai_id} />
+                <PaymentPN Id={Number(id)} thaiId={userInfo?.thai_id} />
             </div>
 
         </div>
