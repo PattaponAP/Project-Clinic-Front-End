@@ -27,7 +27,7 @@
     name: string | undefined
   }
 
-  export const PaymentPN = ({ Id , name }: PaymentPNProps) => {
+  export const  PaymentPN = ({ Id , name }: PaymentPNProps) => {
     const [isOpenPopup, setIsOpenPopup] = useState(false);
     const [earWash, setEarWash] = useState(false);
     const [myringo, setMyringo] = useState(false);

@@ -84,7 +84,7 @@ export const PopupDrugs = ({ onClose, pdid }: PopupProps) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10 overflow-auto">
-      <div className="bg-white p-8 rounded-xl min-w-[800px] xl:min-w-[1000px] ">
+      <div className="bg-white p-8 rounded-xl min-w-[800px] xl:min-w-[1000px] h-[650px]">
         <div className="relative flex items-center mb-4">
           <input
             type="text"
@@ -117,9 +117,9 @@ export const PopupDrugs = ({ onClose, pdid }: PopupProps) => {
           </div>
         )}
 
-        <div className="mt-6">
+        <div>
           <h2 className="text-lg font-semibold ">ยาที่เลือก</h2>
-          <div className="rounded-lg p-2 h-[500px] overflow-auto scrollbar-hidden">
+          <div className="rounded-lg p-2 min-h-[430px] overflow-auto scrollbar-hidden">
             {selectedDrugs.map(drug => (
               <DrugItem 
                 key={drug.id} 
@@ -127,9 +127,13 @@ export const PopupDrugs = ({ onClose, pdid }: PopupProps) => {
                 onUpdateDispense={handleFormDispenseUpdate} 
               />
             ))}
+            
           </div>
 
-          <div className="flex justify-center">
+          
+
+        </div>
+        <div className="flex justify-center">
           <button
             type="button"
             className="bg-[#042446] border border-black text-white px-8 p-4 rounded-xl mt-4  hover:text-black hover:bg-white"
@@ -138,8 +142,6 @@ export const PopupDrugs = ({ onClose, pdid }: PopupProps) => {
             บันทึกข้อมูล
           </button>
           </div>
-
-        </div>
       </div>
     </div>
   );

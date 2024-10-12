@@ -36,7 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
             ) : (
                 <div className={`grid grid-cols-[300px_auto] min-h-screen ${kanit.className}`}>
                     <NavBar />
-                    <div className="m-8  min-w-[1400px]">
+                    <div className="m-8">
                         <Component {...pageProps} name={name} />
                     </div>
                 </div>

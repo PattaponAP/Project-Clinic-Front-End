@@ -25,16 +25,16 @@ export const NavBar = () => {
 
     return (
         <div className="bg-[#042446] flex flex-col justify-between text-white">
-            <div className=" m-4 h-1/5 rounded-xl">
+            <div className="rounded-xl mb-14 ">
             <Link href={"/"}    >
-                <div className="flex justify-center mt-8">
+                <div className="flex justify-center m-4">
                     <Image src={logoClinicW} alt="clinic-icon" width={300} height={150}/>
                     </div>
                     </Link>
             </div>
 
-            <div className="space-y-4  h-4/5 mt-14">
-                <div className="mt-14">
+            <div className="space-y-4">
+                <div>
                     <button onClick={() => toggleDropDown("clinic")} className="w-full transition-transform">
                         <div className="flex items-center p-4 space-x-4 hover:bg-slate-600 transition-colors">
                             <div><FaClinicMedical size={30}/></div>
