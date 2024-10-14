@@ -1,31 +1,39 @@
 import { useEffect, useState } from "react";
-import GetSearchMed from "./api/GET/GetSearchMed";
 import { Loading } from "./component/Loading/Loading";
+import GetAllPatient from "./api/GET/GetAllPatient";
 
-type Drug = {
+// กำหนดประเภทข้อมูล Patient
+type Patient = {
+  thai_id: string;
+  full_name: string;
+  tel: string;
+  address: string;
+  gender: string;
+  date_of_birth: string;
+  ucs: boolean;
   id: number;
-  type: string;
+  patient_id: string;
 };
 
 export default function InfoPatient() {
-  const [drugData, setDrugData] = useState<[string, Drug][]>([]); 
-  const [error, setError] = useState<string | null>(null); 
-  const [isLoading, setIsLoading] = useState<boolean>(true);  
+  const [drugData, setDrugData] = useState<Patient[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true); 
+      setIsLoading(true);
       try {
-        const res = await GetSearchMed();
-        if (res && res.data) {
-          const drugsArray = Object.entries(res.data) as [string, Drug][]; 
-          setDrugData(drugsArray); 
+        const res = await GetAllPatient();
+        if (res) {
+          setDrugData(res);
+          console.log("res ok");
         }
       } catch (err: any) {
-        setError(err.message); 
+        setError(err.message);
         console.error(err);
       } finally {
-        setIsLoading(false); 
+        setIsLoading(false);
       }
     };
 
@@ -33,28 +41,29 @@ export default function InfoPatient() {
   }, []);
 
   return (
-    <div className="p-4">
+    <div className="p-6 bg-gray-100 min-h-full">
       {error ? (
-        <p className="text-red-500">Failed to load data: {error}</p> 
+        <p className="text-red-500 font-semibold">Failed to load data: {error}</p>
       ) : isLoading ? (
-        <p><Loading size={150}/></p> 
+        <p className="flex justify-center"><Loading size={150} /></p>
       ) : (
         <>
-          <div className="font-bold mb-4 text-[28px] space-y-4">Drug Information</div>
-          <div className=" min-h-full overflow-auto ">
-          {drugData.length > 0 ? (
-            <div className="space-y-4">
-              {drugData.map(([name, drug]) => (
-                <div key={drug.id} className="flex justify-evenly p-4 px-8 w-full border border-x-0">
-                  <div className="w-1/4 text-[16px] font-semibold">{name}</div> 
-                  <div>TYPE : <span className="text-red-500 text-[16px]">{drug.type.toUpperCase()}</span></div> 
+          <h1 className="font-bold text-3xl text-center mb-6">ข้อมูลผู้ป่วย</h1>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {drugData.length > 0 ? (
+              drugData.map((patient) => (
+                <div key={patient.id} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                  <div className="text-lg font-semibold text-gray-800">{patient.full_name}</div>
+                  <div className="text-gray-600 mt-1">เบอร์โทร: <span className="text-red-500">{patient.tel}</span></div>
+                  <div className="text-gray-600">ที่อยู่: {patient.address}</div>
+                  <div className="text-gray-600">เพศ: {patient.gender}</div>
+                  <div className="text-gray-600">วันเกิด: {new Date(patient.date_of_birth).toLocaleDateString()}</div>
+                  <div className="text-gray-600">รหัสผู้ป่วย: {patient.patient_id}</div>
                 </div>
-              ))}
-            </div>
-            
-          ) : (
-            <p>No data available</p> 
-          )}
+              ))
+            ) : (
+              <p className="text-center text-gray-500">ไม่มีข้อมูล</p>
+            )}
           </div>
         </>
       )}

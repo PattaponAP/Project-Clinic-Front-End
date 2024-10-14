@@ -248,7 +248,7 @@ export const PaymentPN = ({ Id, name }: PaymentPNProps) => {
         </button>
         ) : (
           <Link 
-          href={"/info-patient"}
+          href={"/payment"}
           className="p-2 px-8 border border-black bg-[#042446] text-white rounded-xl shadow-xl hover:bg-white hover:text-black transition-all">
           หน้าชำระเงิน 
           </Link>

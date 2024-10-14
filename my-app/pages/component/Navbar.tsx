@@ -37,7 +37,7 @@ export const NavBar = () => {
                     <button onClick={() => toggleDropDown("clinic")} className="w-full transition-transform">
                         <div className="flex items-center p-4 space-x-4 hover:bg-slate-600 transition-colors">
                             <div><FaClinicMedical size={30}/></div>
-                            <div className="text-[20px]">จัดการคลินิค</div>
+                            <div className="text-[20px]">จัดการคลินิก</div>
                         </div>
                     </button>
                     <div
