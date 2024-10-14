@@ -50,7 +50,7 @@ export const NavBar = () => {
                 </div>
 
                 <div>
-                    <Link href="/info-patient">
+                    <Link href="/payment">
                         <div className="flex items-center p-4 space-x-4 hover:bg-slate-600 transition-colors">
                             <div><GrContactInfo size={30}/></div>
                             <div className="text-[20px]">ผู้ป่วย / รับยาชำระเงิน</div>
@@ -61,7 +61,7 @@ export const NavBar = () => {
                     <button onClick={() => toggleDropDown("Info-drug")} className="w-full transition-transform">
                         <div className="flex items-center p-4 space-x-4 hover:bg-slate-600 transition-colors">
                             <div><HiOutlineViewGridAdd size={30}/></div>
-                            <div className="text-[20px]">ข้อมูลยา / เพิ่ม</div>
+                            <div className="text-[20px]">ข้อมูลยา / ข้อมูลผู้ป่วย</div>
                         </div>
                     </button>
                     <div
@@ -69,6 +69,8 @@ export const NavBar = () => {
                             }`}
                     >
                         <Link href={"/info-drug"}><div className="py-4 hover:bg-gray-600 p-2">ดูข้อมูลยาทั้งหมด</div></Link>
+                        <Link href={"/info-patient"}><div className="py-4 hover:bg-gray-600 p-2">ดูข้อมูลผู้ป่วย</div></Link>
+
                     </div>
                 </div>
               

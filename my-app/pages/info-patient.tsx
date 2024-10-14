@@ -1,105 +1,63 @@
 import { useEffect, useState } from "react";
-import { LuRefreshCw } from "react-icons/lu";
-import GetBill from "./api/GET/GetBill";
-import { GrContactInfo } from "react-icons/gr";
-import DropDownInfoPatient from "./component/DropDown/Drop-Down-InfoPatient";
+import GetSearchMed from "./api/GET/GetSearchMed";
+import { Loading } from "./component/Loading/Loading";
 
-type Medicine = {
-  medicine: string;
-  frequency: string;
-  time: string;
-  amount: number;
-};
-
-type InfoBill = {
+type Drug = {
   id: number;
-  patient_daily_id: number;
-  patient_name: string;
-  diagnose: string;
-  medicine: Medicine[];
-  ear_cleaning: boolean;
-  myringo: boolean;
-  tapping: boolean;
-  annotate: string;
-  price: number;
-  appointment: string;
+  type: string;
 };
 
-export default function ListPayment() {
-  const [bill, setBill] = useState<InfoBill[]>([]);
-  const [status, setStatus] = useState<boolean[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-
-  const fetchData = async () => {
-    const res = await GetBill();
-    if (res) {
-      setBill(res.data);
-      setStatus(Array(res.data.length).fill(false));
-      setIsLoading(false)
-    }
-  };
+export default function InfoPatient() {
+  const [drugData, setDrugData] = useState<[string, Drug][]>([]); 
+  const [error, setError] = useState<string | null>(null); 
+  const [isLoading, setIsLoading] = useState<boolean>(true);  
 
   useEffect(() => {
-    fetchData(); 
+    const fetchData = async () => {
+      setIsLoading(true); 
+      try {
+        const res = await GetSearchMed();
+        if (res && res.data) {
+          const drugsArray = Object.entries(res.data) as [string, Drug][]; 
+          setDrugData(drugsArray); 
+        }
+      } catch (err: any) {
+        setError(err.message); 
+        console.error(err);
+      } finally {
+        setIsLoading(false); 
+      }
+    };
+
+    fetchData();
   }, []);
 
-  const toggleStatus = (index: number) => {
-    setStatus((prev) => {
-      const newStatus = [...prev];
-      newStatus[index] = !newStatus[index];
-      return newStatus;
-    });
-  };
-
-  const handleRefresh = () => {
-    fetchData(); 
-  };
-
   return (
-    <div className="relative border border-black h-full">
-      <div className="px-4 absolute text-[28px] top-[-25px] left-[25px] bg-white">
-        ลำดับการจ่ายเงิน ทั้งหมด
-        <span className="text-[32px] text-red-500"> {bill.length} </span>
-        คน
-      </div>
-      <div className="p-8 px-16 space-y-4 w-full h-[calc(100vh-100px)] overflow-y-auto scrollbar-hidden">
-        <div className="flex justify-end ">
-          <button className="p-2" onClick={handleRefresh}>
-            <div className="flex items-center space-x-3">
-              <span>รีเฟรช</span>
-              <LuRefreshCw size={30} className={isLoading ? "refresh-spin" : ""} />
+    <div className="p-4">
+      {error ? (
+        <p className="text-red-500">Failed to load data: {error}</p> 
+      ) : isLoading ? (
+        <p><Loading size={150}/></p> 
+      ) : (
+        <>
+          <div className="font-bold mb-4 text-[28px] space-y-4">Drug Information</div>
+          <div className=" min-h-full overflow-auto ">
+          {drugData.length > 0 ? (
+            <div className="space-y-4">
+              {drugData.map(([name, drug]) => (
+                <div key={drug.id} className="flex justify-evenly p-4 px-8 w-full border border-x-0">
+                  <div className="w-1/4 text-[16px] font-semibold">{name}</div> 
+                  <div>TYPE : <span className="text-red-500 text-[16px]">{drug.type.toUpperCase()}</span></div> 
+                </div>
+              ))}
             </div>
-          </button>
-        </div>
-        {bill.map((q, index) => (
-          <div key={q.id}>
-            <div className="w-full border-y bg-gray-200 rounded-xl p-4 flex justify-between items-center">
-              <div className="w-1/12 text-center">ลำดับที่ {q.id}</div>
-              <div className="w-8/12 text-start text-[20px]">{q.patient_name}</div>
-              {!status[index] ? (
-                <button
-                  className="text-center w-32 p-2 px-4 border rounded-2xl bg-green-600 text-white transition-all"
-                  onClick={() => toggleStatus(index)}
-                >
-                  ดูข้อมูล
-                </button>
-              ) : (
-                <button
-                  className="flex justify-center text-center w-32 p-2 px-4 border border-black rounded-2xl text-white transition-all"
-                  onClick={() => toggleStatus(index)}
-                >
-                  <GrContactInfo size={24} color="black" />
-                </button>
-              )}
-            </div>
-
-            {status[index] && (
-              <DropDownInfoPatient info={q} onPaymentSuccess={handleRefresh} />
-            )}
+            
+          ) : (
+            <p>No data available</p> 
+          )}
           </div>
-        ))}
-      </div>
+        </>
+      )}
     </div>
   );
 }
