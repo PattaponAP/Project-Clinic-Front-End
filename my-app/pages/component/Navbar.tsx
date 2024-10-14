@@ -3,7 +3,6 @@ import { useState } from "react";
 import Cookies from 'js-cookie';
 import Image from "next/image";
 
-
 import logoClinicW from "@/styles/Images/clinic_white.png"
 
 import { FaClinicMedical } from "react-icons/fa";
@@ -25,7 +24,7 @@ export const NavBar = () => {
 
     return (
         <div className="bg-[#042446] flex flex-col justify-between text-white">
-            <div className="rounded-xl mb-14 ">
+            <div className="rounded-xl my-8 mb-16">
             <Link href={"/"}    >
                 <div className="flex justify-center m-4">
                     <Image src={logoClinicW} alt="clinic-icon" width={300} height={150}/>

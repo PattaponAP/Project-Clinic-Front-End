@@ -46,8 +46,8 @@ export default function InfoDrug() {
             <div className="space-y-4">
               {drugData.map(([name, drug]) => (
                 <div key={drug.id} className="flex justify-evenly p-4 px-8 w-full border border-x-0">
-                  <div className="w-1/4 text-[20px] font-semibold">{name}</div> 
-                  <div>TYPE : <span className="text-red-500 text-[20px]">{drug.type.toUpperCase()}</span></div> 
+                  <div className="w-1/4 text-[16px] font-semibold">{name}</div> 
+                  <div>TYPE : <span className="text-red-500 text-[16px]">{drug.type.toUpperCase()}</span></div> 
                 </div>
               ))}
             </div>

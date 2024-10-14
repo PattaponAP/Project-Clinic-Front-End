@@ -28,13 +28,15 @@ type InfoBill = {
 export default function ListPayment() {
   const [bill, setBill] = useState<InfoBill[]>([]);
   const [status, setStatus] = useState<boolean[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
 
   const fetchData = async () => {
     const res = await GetBill();
-
     if (res) {
       setBill(res.data);
       setStatus(Array(res.data.length).fill(false));
+      setIsLoading(false)
     }
   };
 
@@ -66,7 +68,7 @@ export default function ListPayment() {
           <button className="p-2" onClick={handleRefresh}>
             <div className="flex items-center space-x-3">
               <span>รีเฟรช</span>
-              <LuRefreshCw size={30} className="refresh-spin" />
+              <LuRefreshCw size={30} className={isLoading ? "refresh-spin" : ""} />
             </div>
           </button>
         </div>

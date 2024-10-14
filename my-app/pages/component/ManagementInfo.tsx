@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import PutPatient from "../api/PUT/PutPatient";
 import { LuRefreshCw } from "react-icons/lu";
+import { BiSearch } from "react-icons/bi";
 import InputField from "./Field/InputField";
+import GetPatienByThai_Id from "../api/GET/GetPatienByThai_Id";
 
 interface InfoBodyProps {
   setCheck: (value: boolean) => void;
 }
 
 export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
-  const [loading, setLoading] = useState(false);
-
+  const [loadingSearch, setLoadingSearch] = useState(false); 
+  const [loadingSubmit, setLoadingSubmit] = useState(false); 
 
   const [formData, setFormData] = useState({
     thai_id: "",
@@ -39,8 +41,45 @@ export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
     }));
   };
 
+  const handleSearch = async () => {
+    if (formData.thai_id) {
+      setLoadingSearch(true); 
+      try {
+        const response = await GetPatienByThai_Id(formData.thai_id);
+        if (response && response.length > 0) {
+          const patient = response[0];
+          const history = patient.history.length > 0 ? patient.history[0] : {};
+            const dateOfBirth = new Date(patient.date_of_birth).toISOString().split('T')[0];
+  
+          setFormData((prevData) => ({
+            ...prevData,
+            full_name: patient.full_name,
+            tel: patient.tel,
+            address: patient.address,
+            gender: patient.gender,
+            date_of_birth: dateOfBirth, 
+            ucs: patient.ucs,
+            height: history.height || 0,
+            weight: history.weight || 0,
+            blood_pressure: history.blood_pressure || "",
+            heart_rate: history.heart_rate || 0,
+            temperature: history.temperature || 0,
+            allergy: history.allergy || "",
+            symptom: history.symptom || "",
+          }));
+        }
+      } catch (error) {
+        console.error("Error fetching patient data:", error);
+      } finally {
+        setLoadingSearch(false); 
+      }
+    } else {
+      alert("กรุณากรอกเลขบัตรประชาชนก่อนค้นหา");
+    }
+  };
+
   const handleSubmit = async () => {
-    setLoading(true);
+    setLoadingSubmit(true); 
     try {
       const response = await PutPatient(formData);
       if (response) {
@@ -49,7 +88,7 @@ export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
     } catch (error) {
       console.error("Error:", error);
     } finally {
-      setLoading(false);
+      setLoadingSubmit(false); 
     }
   };
 
@@ -63,13 +102,27 @@ export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
           <div className="text-nowrap">
             <div className="space-y-4">
               <div className="grid grid-cols-3 w-full gap-4">
-                <InputField
-                  type="text"
-                  name="thai_id"
-                  value={formData.thai_id}
-                  onChange={handleChange}
-                  label="เลขบัตรประชาชน"
-                />
+                <div className="relative">
+                  <InputField
+                    type="text"
+                    name="thai_id"
+                    value={formData.thai_id}
+                    onChange={handleChange}
+                    label="เลขบัตรประชาชน"
+                  />
+                  <button
+                    onClick={handleSearch}
+                    className="absolute right-2 top-[6px] bg-gray-200 p-2 rounded-full hover:bg-gray-300"
+                    disabled={loadingSearch}
+                  >
+                    {loadingSearch ? (
+                      <LuRefreshCw size={20} className="refresh-spin" />
+                    ) : (
+                      <BiSearch size={22} />
+                    )}
+                  </button>
+                </div>
+
                 <InputField
                   type="text"
                   name="full_name"
@@ -208,12 +261,12 @@ export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
       <div className="flex justify-end">
         <button
           onClick={handleSubmit}
-          disabled={loading}
+          disabled={loadingSubmit}
           className={`bg-[#042446] text-white p-5 mx-8 m-4 border px-8 rounded-xl transition-colors 
             hover:bg-white hover:border-black hover:text-[#042446] hover:shadow-[8px_5px_5px_rgba(0,0,0,0.5)]
-            ${loading ? "bg-white border-black" : ""}`}
+            ${loadingSubmit ? "bg-white border-black" : ""}`}
         >
-          {loading ? (
+          {loadingSubmit ? (
             <LuRefreshCw size={20} color="black" className="refresh-spin" />
           ) : (
             "เข้าคิวรักษา"

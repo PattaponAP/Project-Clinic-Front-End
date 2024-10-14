@@ -7,7 +7,7 @@ type InfoPersonalBodyProps = {
     height: number ;
     heart_rate: number ;
     temperature: number;
-    symptom: boolean; 
+    symptom: string; 
     blood_pressure: string; 
     allergy: string;
   };
@@ -47,7 +47,7 @@ export const InfoBodyPersonal = ({ userInfo }: InfoPersonalBodyProps) => {
           <div className="col-span-1 relative">
             <input
               type="text"
-              value={userInfo.allergy} 
+              value={userInfo.symptom} 
               className="border border-black rounded-xl p-3 w-full"
               readOnly
             />

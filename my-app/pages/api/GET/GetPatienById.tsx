@@ -5,7 +5,7 @@ export const GetPatienById = async(id : any) => {
   try {
      const res = await axios.get(`${API_URL}/mgmt/patient?GetBy=qid&GetDoc=${id}`);
 
-    return res;
+    return res.data;
 
   } catch (error) {
     if (axios.isAxiosError(error)) {
