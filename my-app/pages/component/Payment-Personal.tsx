@@ -85,6 +85,7 @@ export const PaymentPN = ({ Id, name }: PaymentPNProps) => {
     };
 
     try {
+      console.log(formData)
       const response = await PostProcedure(formData);
 
       if (response) {

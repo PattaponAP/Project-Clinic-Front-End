@@ -54,11 +54,11 @@ export default function InfoPatient() {
               drugData.map((patient) => (
                 <div key={patient.id} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                   <div className="text-lg font-semibold text-gray-800">{patient.full_name}</div>
-                  <div className="text-gray-600 mt-1">เบอร์โทร: <span className="text-red-500">{patient.tel}</span></div>
-                  <div className="text-gray-600">ที่อยู่: {patient.address}</div>
-                  <div className="text-gray-600">เพศ: {patient.gender}</div>
-                  <div className="text-gray-600">วันเกิด: {new Date(patient.date_of_birth).toLocaleDateString()}</div>
-                  <div className="text-gray-600">รหัสผู้ป่วย: {patient.patient_id}</div>
+                  <div className="text-gray-600 mt-1">เบอร์โทร :{patient.tel} </div>
+                  <div className="text-gray-600">ที่อยู่ : {patient.address}</div>
+                  <div className="text-gray-600">เพศ : {patient.gender}</div>
+                  <div className="text-gray-600">วันเกิด : {new Date(patient.date_of_birth).toLocaleDateString()}</div>
+                  <div className="text-gray-600">เลขบัตรประชาชน : {patient.patient_id}</div>
                 </div>
               ))
             ) : (
