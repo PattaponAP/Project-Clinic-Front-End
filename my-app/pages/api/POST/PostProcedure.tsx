@@ -22,6 +22,7 @@ export const PostProcedure = async (formData: PatientData) => {
       }
     ];
 
+
     const response = await axios.post(`${API_URL}/clinic/procedure`, requestBody, {
       params: {
         pdid: formData.pdid,

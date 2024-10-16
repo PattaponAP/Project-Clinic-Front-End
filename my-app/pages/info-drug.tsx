@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import GetSearchMed from "./api/GET/GetSearchMed";
 import { Loading } from "./component/Loading/Loading";
 
+// กำหนดประเภทข้อมูลยา
 type Drug = {
   id: number;
   type: string;
@@ -18,14 +19,14 @@ export default function InfoDrug() {
       try {
         const res = await GetSearchMed();
         if (res && res.data) {
-          const drugsArray = Object.entries(res.data) as [string, Drug][]; // แปลงข้อมูลเป็น array
-          setDrugData(drugsArray); // เก็บข้อมูลใน state
+          const drugsArray = Object.entries(res.data) as [string, Drug][]; 
+          setDrugData(drugsArray); 
         }
       } catch (err: any) {
-        setError(err.message); // เก็บ error message
+        setError(err.message);
         console.error(err);
       } finally {
-        setIsLoading(false); // เสร็จสิ้นการโหลดไม่ว่าจะสำเร็จหรือไม่
+        setIsLoading(false); 
       }
     };
 
@@ -33,28 +34,25 @@ export default function InfoDrug() {
   }, []);
 
   return (
-    <div className="p-4">
+    <div className="p-6 bg-gray-100 min-h-full">
       {error ? (
-        <p className="text-red-500">Failed to load data: {error}</p> 
+        <p className="text-red-500 font-semibold">Failed to load data: {error}</p>
       ) : isLoading ? (
-        <p><Loading size={150}/></p> 
+        <p className="flex justify-center"><Loading size={150} /></p>
       ) : (
         <>
-          <div className="font-bold mb-4 text-[28px] space-y-4">Drug Information</div>
-          <div className=" min-h-full overflow-auto ">
-          {drugData.length > 0 ? (
-            <div className="space-y-4">
-              {drugData.map(([name, drug]) => (
-                <div key={drug.id} className="flex justify-evenly p-4 px-8 w-full border border-x-0">
-                  <div className="w-1/4 text-[20px] font-semibold">{name}</div> 
-                  <div>TYPE : <span className="text-red-500 text-[20px]">{drug.type.toUpperCase()}</span></div> 
+          <h1 className="font-bold text-3xl text-center mb-6">ข้อมูลยา</h1>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {drugData.length > 0 ? (
+              drugData.map(([name, drug]) => (
+                <div key={drug.id} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                  <div className="text-lg font-semibold text-gray-800">{name}</div>
+                  <div className="text-gray-600">ประเภท: <span className="text-red-500">{drug.type.toUpperCase()}</span></div>
                 </div>
-              ))}
-            </div>
-            
-          ) : (
-            <p>No data available</p> 
-          )}
+              ))
+            ) : (
+              <p className="text-center text-gray-500">ไม่มีข้อมูล</p>
+            )}
           </div>
         </>
       )}

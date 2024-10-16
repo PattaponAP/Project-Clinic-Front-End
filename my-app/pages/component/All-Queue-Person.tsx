@@ -7,6 +7,7 @@ interface Queue {
     id: number;
     patient_id: string;
     patient_daily_id: number
+    index: number
 }
 
 interface AllQueuePersonProps {
@@ -18,7 +19,7 @@ export const AllQueuePerson = ({ queue }: AllQueuePersonProps) => {
     return (
         <div className="w-full border-y p-3 flex justify-between items-center text-[18px]">
             <div className="w-1/12 text-center">
-                ลำดับที่ {queue.id}
+                ลำดับที่ {queue.index}
             </div>
 
             <div className="w-5/12 text-start">

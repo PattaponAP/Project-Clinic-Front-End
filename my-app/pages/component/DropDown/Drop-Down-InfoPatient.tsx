@@ -49,8 +49,8 @@ const DropDownInfoPatient = ({ info, onPaymentSuccess }: DropDownInfoPatientProp
     setError(null);
     try {
       const res = await PutBill(info.id); 
-      if (res && res.status === 200) { // Check for success status
-        onPaymentSuccess(); // Call the success callback
+      if (res && res.status === 200) { 
+        onPaymentSuccess(); 
       } else {
         throw new Error('Failed to process payment');
       }
@@ -187,10 +187,17 @@ const DropDownInfoPatient = ({ info, onPaymentSuccess }: DropDownInfoPatientProp
       {/* ข้อมูลการนัดหมาย */}
       <div className="mb-6">
         <div className="text-lg font-semibold mb-3 text-blue-500">ข้อมูลการนัดหมาย</div>
-        <div className="text-base">
-          <span className="font-medium">วันที่นัดหมาย : </span>
-          {formatAppointmentDate(info.appointment)}
+        <div className="flex justify-between text-base">
+          <div className="font-medium">
+            วันที่นัดหมาย : {formatAppointmentDate(info.appointment)}
+          </div>
+
+          <div className="text-2xl mr-4">
+            ราคา : {info.price}
+          </div>
         </div>
+
+        
       </div>
 
       {/* Error Message */}

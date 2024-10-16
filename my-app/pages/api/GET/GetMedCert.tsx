@@ -1,10 +1,13 @@
 import axios from 'axios';
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export const GetMedSetById = async(id : any) => {
+export const GetMedCert = async(thai_id : any) => {
   try {
-    const res = await axios.get(`${API_URL}/mgmt/medSet?GetBy=qid&GetDoc=${id}`);
-    return res;
+    
+    const res = await axios.get(`${API_URL}/cert/medcert?GetBy=thai_id&GetDoc=${thai_id}`);
+
+    return res.data;
+
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error("Response data:", error.response?.data);
@@ -17,4 +20,5 @@ export const GetMedSetById = async(id : any) => {
   }
 }
 
-export default GetMedSetById;
+export default GetMedCert;
+

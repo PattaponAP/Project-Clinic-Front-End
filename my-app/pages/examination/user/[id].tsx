@@ -22,7 +22,7 @@ type UserInfoBody = {
     height: number ;
     heart_rate: number ;
     temperature: number ;
-    symptom: boolean; 
+    symptom: string; 
     blood_pressure: string; 
     allergy: string;
 };
@@ -37,8 +37,6 @@ export default function ExaminationDetail() {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [showBill, setShowBill] = useState(false)
-
 
     useEffect(() => {
         
@@ -47,9 +45,9 @@ export default function ExaminationDetail() {
 
             try {
                 const res = await GetPatienById(id);                
-                if (res.data && Array.isArray(res.data) && res.data.length > 0) {
-                    setUserInfo(res.data[0]); 
-                    setUserInfoBody(res.data[0])
+                if (res && Array.isArray(res) && res.length > 0) {
+                    setUserInfo(res[0]); 
+                    setUserInfoBody(res [0])
                 } else {
                     setError('No valid data found');
                 }
@@ -73,7 +71,7 @@ export default function ExaminationDetail() {
     }
 
     return (
-        <div className="flex flex-col justify-between gap-4 h-full">
+        <div className="flex flex-col justify-between  h-full">
             <div className="relative border border-black">
                 <div className="absolute text-[28px] top-[-25px] left-[25px] px-4 bg-white">ผู้ป่วย</div>
                 <div className="p-8">

@@ -95,7 +95,7 @@ export default function doctor_note_printer(
         checkBox(90, 76, true); // Checkbox for โรคประจำตัว
         doc.text('ไม่มี', 93, 77.5); // Add ไม่มี text
     }
-    else{
+    else{   
         checkBox(90, 76, true); // Checkbox for โรคประจำตัว
         doc.text(`มี  ${congenital}`, 93, 77.5); // Add มี text
     }
@@ -133,7 +133,7 @@ export default function doctor_note_printer(
     }
     else {
         checkBox(90, 104, true); // Checkbox for ประวัติอื่นที่สำคัญ
-        doc.text(`มี  ${other}`, 108, 105.5); // Add มี text
+        doc.text(`มี  ${other}`, 93, 105.5); // Add มี text
     }
 
     doc.text('ลงชื่อ', 80, 123); // Moved up by 2 units

@@ -3,7 +3,6 @@ import { useState } from "react";
 import Cookies from 'js-cookie';
 import Image from "next/image";
 
-
 import logoClinicW from "@/styles/Images/clinic_white.png"
 
 import { FaClinicMedical } from "react-icons/fa";
@@ -25,20 +24,20 @@ export const NavBar = () => {
 
     return (
         <div className="bg-[#042446] flex flex-col justify-between text-white">
-            <div className=" m-4 h-1/5 rounded-xl">
+            <div className="rounded-xl my-8 mb-16">
             <Link href={"/"}    >
-                <div className="flex justify-center mt-8">
+                <div className="flex justify-center m-4">
                     <Image src={logoClinicW} alt="clinic-icon" width={300} height={150}/>
                     </div>
                     </Link>
             </div>
 
-            <div className="space-y-4  h-4/5 mt-14">
-                <div className="mt-14">
+            <div className="space-y-4">
+                <div>
                     <button onClick={() => toggleDropDown("clinic")} className="w-full transition-transform">
                         <div className="flex items-center p-4 space-x-4 hover:bg-slate-600 transition-colors">
                             <div><FaClinicMedical size={30}/></div>
-                            <div className="text-[20px]">จัดการคลินิค</div>
+                            <div className="text-[20px]">จัดการคลินิก</div>
                         </div>
                     </button>
                     <div
@@ -51,7 +50,7 @@ export const NavBar = () => {
                 </div>
 
                 <div>
-                    <Link href="/info-patient">
+                    <Link href="/payment">
                         <div className="flex items-center p-4 space-x-4 hover:bg-slate-600 transition-colors">
                             <div><GrContactInfo size={30}/></div>
                             <div className="text-[20px]">ผู้ป่วย / รับยาชำระเงิน</div>
@@ -62,7 +61,7 @@ export const NavBar = () => {
                     <button onClick={() => toggleDropDown("Info-drug")} className="w-full transition-transform">
                         <div className="flex items-center p-4 space-x-4 hover:bg-slate-600 transition-colors">
                             <div><HiOutlineViewGridAdd size={30}/></div>
-                            <div className="text-[20px]">ข้อมูลยา / เพิ่ม</div>
+                            <div className="text-[20px]">ข้อมูลยา / ข้อมูลผู้ป่วย</div>
                         </div>
                     </button>
                     <div
@@ -70,6 +69,8 @@ export const NavBar = () => {
                             }`}
                     >
                         <Link href={"/info-drug"}><div className="py-4 hover:bg-gray-600 p-2">ดูข้อมูลยาทั้งหมด</div></Link>
+                        <Link href={"/info-patient"}><div className="py-4 hover:bg-gray-600 p-2">ดูข้อมูลผู้ป่วย</div></Link>
+
                     </div>
                 </div>
               
