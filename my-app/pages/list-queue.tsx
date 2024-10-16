@@ -7,7 +7,8 @@ type userProps = {
   id: number;
   patient_id: string;
   full_name: string;
-  patient_daily_id: number
+  patient_daily_id: number;
+  index: number;
 };
 
 export default function ListQueue() {
