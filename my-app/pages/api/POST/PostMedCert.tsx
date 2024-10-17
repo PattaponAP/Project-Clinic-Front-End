@@ -5,7 +5,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 interface FormData {
   sheet_no: number;
   prefix: string;
-  full_name: string;
+  fullname: string;
   address: string;
   thai_id: string;
   congenital?: string;
@@ -28,7 +28,7 @@ export const PostMedCert = async (formData: FormData) => {
     const queryParams = new URLSearchParams({
       sheet_no: formData.sheet_no.toString(),
       prefix: formData.prefix,
-      full_name: formData.full_name,
+      full_name: formData.fullname,
       address: formData.address,
       thai_id: formData.thai_id,
       congenital: formData.congenital || "",

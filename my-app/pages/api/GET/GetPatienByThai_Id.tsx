@@ -8,6 +8,7 @@ export const GetPatienByThai_Id = async(id : any) => {
     return res.data;
 
   } catch (error) {
+    
     if (axios.isAxiosError(error)) {
       console.error("Response data:", error.response?.data);
       throw new Error(`Failed to fetch queue data: ${error.response?.status} - ${error.message}`);

@@ -25,7 +25,8 @@ const InputField: React.FC<InputFieldProps> = ({
         name={name}
         value={value}
         onChange={onChange}
-        className={`border border-black rounded-xl p-3 w-full ${className}`} // ใช้ className ที่ส่งเข้ามา
+        className={`border border-black rounded-xl p-3 w-full ${className}`} 
+        required
       />
       <div className="absolute translate-x-[12px] translate-y-[-62px] px-4 bg-white">
         {label}

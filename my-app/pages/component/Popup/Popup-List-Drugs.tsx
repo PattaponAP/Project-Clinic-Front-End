@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import GetMedSetById from "@/pages/api/GET/GetMedSet";
 import GetMedicineById from "@/pages/api/GET/GetMedicine";
-import { Drung } from "./Drug";
+import { Drug } from "./Drug";
 
 interface SelectedDrugItemProps {
   drug: {
@@ -126,10 +126,10 @@ const DrugItem: React.FC<SelectedDrugItemProps> = ({ drug, onUpdateDispense }) =
           {drug.type === "med" &&
             medSetInfo.map((med) => (
               <div key={med.id} className="text-black text-[18px]">
-                <Drung
+                <Drug
                   medicien_name={med.name}
-                  frequency={med.medicine_usage_frequency_id | 1}
-                  time={med.medicine_usage_time_id | 1}
+                  frequency={med.medicine_usage_frequency_id}
+                  time={med.medicine_usage_time_id }
                   initialAmount={med.amount}
                   onDelete={() => handleDeleteMed(med.name)}
                   onChange={(frequency, time, amount) =>
@@ -141,10 +141,10 @@ const DrugItem: React.FC<SelectedDrugItemProps> = ({ drug, onUpdateDispense }) =
           {drug.type === "set" &&
             medSetInfo.map((set) => (
               <div key={set.medicine_id} className="text-black text-[18px] ">
-                <Drung
+                <Drug
                   medicien_name={set.medicine_name}
-                  frequency={set.medicine_usage_frequency_id}
-                  time={set.medicine_usage_time_id}
+                  frequency={set.medicine_usage_frequency_id }
+                  time={set.medicine_usage_time_id }
                   initialAmount={set.amount}
                   onDelete={() => handleDeleteSet(set.medicine_name)}
                   onChange={(frequency, time, amount) =>

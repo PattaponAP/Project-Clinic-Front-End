@@ -52,3 +52,5 @@ export const InjectInfo = ({ select }: { select: (value: string) => void }) => {
     </div>
   );
 };
+
+export default InjectInfo

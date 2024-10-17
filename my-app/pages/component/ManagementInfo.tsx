@@ -13,6 +13,7 @@ export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
   const [loadingSearch, setLoadingSearch] = useState(false); 
   const [loadingSubmit, setLoadingSubmit] = useState(false); 
 
+
   const [formData, setFormData] = useState({
     thai_id: "",
     full_name: "",
@@ -46,10 +47,11 @@ export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
       setLoadingSearch(true); 
       try {
         const response = await GetPatienByThai_Id(formData.thai_id);
+
         if (response && response.length > 0) {
           const patient = response[0];
           const history = patient.history.length > 0 ? patient.history[0] : {};
-            const dateOfBirth = new Date(patient.date_of_birth).toISOString().split('T')[0];
+          const dateOfBirth = new Date(patient.date_of_birth).toISOString().split('T')[0];
   
           setFormData((prevData) => ({
             ...prevData,
@@ -80,6 +82,11 @@ export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
 
   const handleSubmit = async () => {
     setLoadingSubmit(true); 
+    if (!formData.thai_id || !formData.full_name || !formData.tel || !formData.gender || !formData.date_of_birth) {
+      alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+      setLoadingSubmit(false); 
+      return;
+    }
     try {
       const response = await PutPatient(formData);
       if (response) {
@@ -87,9 +94,12 @@ export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
       }
     } catch (error) {
       console.error("Error:", error);
+
     } finally {
       setLoadingSubmit(false); 
     }
+
+
   };
 
   return (
@@ -259,6 +269,7 @@ export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
       </div>
 
       <div className="flex justify-end">
+
         <button
           onClick={handleSubmit}
           disabled={loadingSubmit}

@@ -27,7 +27,7 @@ export default function TakeQueue() {
         <div className="absolute text-[28px] top-[-25px] left-[25px] px-4 bg-white">
           ลำดับการเข้ารักษา
         </div>
-        <div className="p-8 ">
+        <div className="p-4">
           <QueuePersonal />
         </div>
       </div>

@@ -1,22 +1,24 @@
 import { useEffect, useState } from "react";
 import GetQueue from "../api/GET/GetQueue";
 import { Loading } from "./Loading/Loading";
+import { LuRefreshCw } from "react-icons/lu";
 
-type userProps = {
+type UserProps = {
     id: number;
     patient_daily_id: number;
     full_name: string;
     on_create: string;
     symptom: string;
+    index: number;
 };
 
 const extractTime = (isoString: string) => {
-    return isoString.split("T")[1].slice(0, 5); 
+    return isoString.split("T")[1].slice(0, 5);
 };
 
 export const QueuePersonal = () => {
-    const [queueData, setQueueData] = useState<userProps[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [queueData, setQueueData] = useState<UserProps[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     const fetchQueueData = async () => {
@@ -25,37 +27,43 @@ export const QueuePersonal = () => {
 
         try {
             const response = await GetQueue();
-            setQueueData(response.data);
-        } catch (error) {
-            setError("Failed to fetch queue data");
+            setQueueData(response.data); // อัปเดตข้อมูลใน queueData
+        } catch (err) {
+            setError("เกิดข้อผิดพลาดในการดึงข้อมูล");
         } finally {
             setIsLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchQueueData();
-
-        const intervalId = setInterval(() => {
-            fetchQueueData();
-        }, 180000);
-
-        return () => clearInterval(intervalId);
+        fetchQueueData(); 
     }, []);
 
+    const handleRefresh = () => {
+        fetchQueueData(); 
+    };
+
     if (isLoading) {
-        return <Loading size={150}/>;
+        return <Loading size={150} />;
     }
 
     if (error) {
-        return <div>{error}</div>;
+        return <div className="text-red-500">{error}</div>; 
     }
 
     return (
         <div className="text-nowrap">
-            <div className="min-h-[280px] max-h-[280px] scrollbar-hidden overflow-y-auto">
-                <table className="w-full mt-2 overflow-x-auto">
-                    <thead className="sticky top-0 bg-gray-200 ">
+             <div className="flex justify-end">
+          <button onClick={handleRefresh} className="p-2" disabled={isLoading}>
+            <div className="flex items-center space-x-3">
+              <span>{isLoading ? "กำลังรีเฟรช..." : "รีเฟรช"}</span>
+              <LuRefreshCw size={30} className={isLoading ? "refresh-spin" : ""} />
+            </div>
+          </button>
+        </div>
+            <div className="h-[240px] scrollbar-hidden overflow-y-auto">
+                <table className="w-full overflow-x-auto">
+                    <thead className="sticky top-0 bg-gray-200">
                         <tr>
                             <th className="p-2 border border-black w-1/12">ลำดับการคิว</th>
                             <th className="p-2 border border-black w-3/12">ชื่อ - นามสกุล</th>
@@ -66,7 +74,7 @@ export const QueuePersonal = () => {
                     <tbody>
                         {queueData.map((info) => (
                             <tr key={info.id} className="hover:bg-black hover:bg-opacity-10">
-                                <td className="p-2 border border-black text-center">{info.patient_daily_id}</td>
+                                <td className="p-2 border border-black text-center">{info.index}</td>
                                 <td className="p-2 border border-black text-center">{info.full_name}</td>
                                 <td className="p-2 border border-black text-center">{extractTime(info.on_create)}</td>
                                 <td className="p-2 border border-black text-center">{info.symptom}</td>

@@ -85,7 +85,6 @@ export const PaymentPN = ({ Id, name }: PaymentPNProps) => {
     };
 
     try {
-      console.log(formData)
       const response = await PostProcedure(formData);
 
       if (response) {
@@ -190,6 +189,10 @@ export const PaymentPN = ({ Id, name }: PaymentPNProps) => {
               >
                 กดเพื่อเพิ่มยา
               </button>
+
+              <div>
+                {/*แสดงข้อมูลยา*/}
+              </div>
             </div>
           </div>
 
@@ -267,3 +270,5 @@ export const PaymentPN = ({ Id, name }: PaymentPNProps) => {
     </>
   );
 };
+
+export default PaymentPN

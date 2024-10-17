@@ -13,7 +13,7 @@ type DrungProps = {
   onDelete: () => void;
 };
 
-export const Drung = ({
+export const Drug = ({
   medicien_name,
   frequency,
   time,
@@ -51,12 +51,13 @@ export const Drung = ({
         setTimeOptions(timeResponse.data);
         setIsDataFetched(true); 
 
+
         if (frequencyResponse.data.length > 0 && selectedFrequency === null) {
-          setSelectedFrequency(frequencyResponse.data[0].id);
+          setSelectedFrequency(frequencyResponse.data.id);
         }
 
         if (timeResponse.data.length > 0 && selectedTime === null) {
-          setSelectedTime(timeResponse.data[0].id);
+          setSelectedTime(timeResponse.data.id);
         }
       } catch (error) {
         setErrorFrequency("Error fetching frequency data");
@@ -163,3 +164,5 @@ export const Drung = ({
     </div>
   );
 };
+
+export default Drug

@@ -101,7 +101,7 @@ export default function doctor_note_printer(
     }
 
     if (surgery === 'none') {
-        checkBox(90, 83); // Checkbox for อุบัติเหตุ และ ผ่าตัด
+        checkBox(90, 83, true); // Checkbox for อุบัติเหตุ และ ผ่าตัด
         doc.text('ไม่มี', 93, 84.5); // Add ไม่มี text
     }
     else {

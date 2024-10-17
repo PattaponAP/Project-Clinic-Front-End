@@ -10,8 +10,10 @@ type Drug = {
 
 export default function InfoDrug() {
   const [drugData, setDrugData] = useState<[string, Drug][]>([]); // ข้อมูลยา
+  const [filteredData, setFilteredData] = useState<[string, Drug][]>([]); // ข้อมูลยาที่กรองแล้ว
   const [error, setError] = useState<string | null>(null); // สำหรับเก็บ error
   const [isLoading, setIsLoading] = useState<boolean>(true); // สำหรับแสดงสถานะการโหลด
+  const [searchQuery, setSearchQuery] = useState<string>(""); // สำหรับเก็บค่าการค้นหา
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,6 +23,7 @@ export default function InfoDrug() {
         if (res && res.data) {
           const drugsArray = Object.entries(res.data) as [string, Drug][]; 
           setDrugData(drugsArray); 
+          setFilteredData(drugsArray); // เริ่มต้นแสดงข้อมูลทั้งหมด
         }
       } catch (err: any) {
         setError(err.message);
@@ -33,8 +36,19 @@ export default function InfoDrug() {
     fetchData();
   }, []);
 
+  // ฟังก์ชันสำหรับจัดการการค้นหา
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
+
+    const filtered = drugData.filter(([name]) => 
+      name.toLowerCase().includes(query)
+    );
+    setFilteredData(filtered);
+  };
+
   return (
-    <div className="p-6 bg-gray-100 min-h-full">
+    <div className="p-6 bg-gray-100 h-[880px] overflow-auto scrollbar-hidden">
       {error ? (
         <p className="text-red-500 font-semibold">Failed to load data: {error}</p>
       ) : isLoading ? (
@@ -42,9 +56,16 @@ export default function InfoDrug() {
       ) : (
         <>
           <h1 className="font-bold text-3xl text-center mb-6">ข้อมูลยา</h1>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={handleSearch}
+            placeholder="ค้นหาชื่อยา"
+            className="border border-gray-300 rounded-lg p-2 mb-4 w-full md:w-1/4 mx-auto"
+          />
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {drugData.length > 0 ? (
-              drugData.map(([name, drug]) => (
+            {filteredData.length > 0 ? (
+              filteredData.map(([name, drug]) => (
                 <div key={drug.id} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                   <div className="text-lg font-semibold text-gray-800">{name}</div>
                   <div className="text-gray-600">ประเภท: <span className="text-red-500">{drug.type.toUpperCase()}</span></div>

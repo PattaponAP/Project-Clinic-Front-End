@@ -11,3 +11,5 @@ export const Loading = ({size} : sizeP) => {
         </div>
     );
 };
+
+export default Loading
