@@ -46,19 +46,6 @@ export default function DoctorForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const requiredFields = [
-      "sheet_no",
-      "prefix",
-      "fullname",
-      "address",
-      "thai_id",
-      "weight",
-      "height",
-      "blood_pressure",
-      "heart_rate",
-      "diagnose",
-    ];
-
     const medCertData = {
       sheet_no: Number(formData.sheet_no),
       prefix: formData.prefix,
@@ -115,7 +102,7 @@ export default function DoctorForm() {
   return (
     <div className="max-w-4xl mx-auto p-6 bg-gray-50 rounded-md shadow-md h-full overflow-hidden">
       <h1 className="text-3xl font-semibold mb-8 text-center">
-        แบบฟอร์มใบรับรองแพทย์
+        แบบฟอร์มใบรับรองแพทย์ ใบขับขี่
       </h1>
       <div className="max-h-[750px] min-w-full overflow-y-auto scrollbar-hidden">
         <form

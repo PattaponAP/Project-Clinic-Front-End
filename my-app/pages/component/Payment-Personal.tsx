@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PopupListDrug from "./Popup/Popup-Drugs";
 import { FaCheck } from "react-icons/fa";
 import PostProcedure from "../api/POST/PostProcedure";
@@ -9,6 +9,8 @@ import PutQueue from "../api/PUT/PutQueue";
 import doctor_note_printer from "@/printer/docter_note_printer";
 import PostDocternote from "../api/POST/PostDocternote";
 import Link from "next/link";
+import GetDispense from "../api/GET/GetDispense";
+import { Itim } from "next/font/google";
 
 type PatientData = {
   pdid: number;
@@ -22,25 +24,36 @@ type PatientData = {
   inject_id: number;
 };
 
+type DispenseItem = {
+  medicine_name: string;
+  usage_frequency_name: string;
+  usage_time_name: string;
+  amount: number;
+}
+
 interface PaymentPNProps {
   Id: any;
   thaiId: number | string | undefined;
   name: string | undefined;
 }
 
-export const PaymentPN = ({ Id, name }: PaymentPNProps) => {
+
+export const PaymentPN = ({ Id, name, thaiId }: PaymentPNProps) => {
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const [earWash, setEarWash] = useState(false);
   const [myringo, setMyringo] = useState(false);
   const [tapping, setTapping] = useState(false);
   const [injection, setInjection] = useState("");
-  const [diagnosis, setDiagnosis] = useState("");
+  const [diagnose, setDiagnosis] = useState("");
   const [price, setPrice] = useState("");
   const [appointment, setAppointment] = useState("");
   const [notes, setNotes] = useState("");
+
   const [isLoading, setIsLoading] = useState(false); 
   const [showBill, setShowBill] = useState(false);
   const [check, setCheck] = useState(false);
+
+  const [dispenseItem, setDispenseItem] = useState<DispenseItem[]>([])
 
   const handleToggleEW = () => setEarWash(!earWash);
   const handleToggleMy = () => setMyringo(!myringo);
@@ -50,7 +63,7 @@ export const PaymentPN = ({ Id, name }: PaymentPNProps) => {
     try {
       const res = await PostDocternote({
         name: name,
-        diagnose: diagnosis,
+        diagnose: diagnose,
         comment: notes,
       });
 
@@ -69,33 +82,45 @@ export const PaymentPN = ({ Id, name }: PaymentPNProps) => {
   };
 
   const handleSubmit = async () => {
+    if (!price) {
+      alert("ไม่มีข้อมูลราคา กรุณากรอกข้อมูลให้ครบถ้วน");
+      return; 
+    }
+    const finalappointment = appointment || "1000-10-10";
+    const finalNotes = notes || "ไม่มี"; 
+    const finalDiagnosis = diagnose || "ไม่มี"; 
+    const finalInjection = injection ? parseFloat(injection) : 0; 
+  
     setIsLoading(true); 
     const patientId = Array.isArray(Id) ? parseInt(Id[0]) : Number(Id);
-
+    
     const formData: PatientData = {
       pdid: patientId,
-      diagnose: diagnosis,
+      diagnose: finalDiagnosis,
       earclean: earWash,
       myringo: myringo,
       tapping: tapping,
       price: parseFloat(price) || 0,
-      appointment: appointment,
-      annotate: notes,
-      inject_id: parseFloat(injection) || 0,
+      appointment: finalappointment,  
+      annotate: finalNotes,
+      inject_id: finalInjection,
     };
-
+  
     try {
+      console.log(formData)
       const response = await PostProcedure(formData);
 
       if (response) {
+        
+        setShowBill(true);
+        setCheck(true);
+        
         const res = await PutQueue(Id);
         if (res) {
           console.log(`Patient updated successfully.`);
         }
 
-        setShowBill(true);
-        setCheck(true);
-
+  
         const timer = setTimeout(() => {
           setCheck(false);
         }, 2000);
@@ -107,11 +132,28 @@ export const PaymentPN = ({ Id, name }: PaymentPNProps) => {
     }
   };
 
+  const getData = async () => {
+    const res = await GetDispense(Id);
+    if (res) {
+      setDispenseItem(res);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, [Id]);
+
+  useEffect(() => {
+    if (!isOpenPopup) {
+      getData();  
+    }
+  }, [isOpenPopup]); 
+
   return (
     <>
       <div className="relative border border-black p-4 mb-8 text-nowrap">
         <div className="px-4 absolute text-[28px] top-[-25px] left-[25px] bg-white">
-          หัตถการ
+          หัตถการ.
         </div>
         <div className="m-4 space-y-4">
           <div className="grid grid-cols-[40%_auto] w-full gap-4">
@@ -163,7 +205,7 @@ export const PaymentPN = ({ Id, name }: PaymentPNProps) => {
             <div className="relative">
               <input
                 type="text"
-                value={diagnosis}
+                value={diagnose}
                 onChange={(e) => setDiagnosis(e.target.value)}
                 className="border border-black rounded-xl p-3 w-full"
               />
@@ -183,21 +225,31 @@ export const PaymentPN = ({ Id, name }: PaymentPNProps) => {
         <div className="grid grid-cols-5 m-4">
           <div className="relative row-span-1 col-span-3 ">
             <div className="w-11/12 border border-black rounded-xl h-[150px]">
+            
               <button
                 onClick={() => setIsOpenPopup(true)}
-                className="w-full h-full p-2 border border-white rounded-xl hover:bg-gray-100 text-2xl text-gray-300 hover:text-black"
+                className=" relative w-full h-full p-2 border border-white rounded-xl hover:bg-gray-50 text-2xl text-gray-200 hover:text-black z-10 hover:bg-opacity-60"
               >
                 กดเพื่อเพิ่มยา
               </button>
 
-              <div>
-                {/*แสดงข้อมูลยา*/}
+              
+
+              <div className=" absolute top-0 p-4  w-11/12 h-[150px] overflow-auto scrollbar-hidden">
+                {dispenseItem.map(item => (
+                  <div key={Id} className="flex justify-between px-8">
+                    <div> {item.medicine_name} </div>
+                    <div> {item.usage_frequency_name} </div>
+                    <div> {item.usage_time_name} </div>
+                    <div>จำนวน : {item.amount} </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
 
           {isOpenPopup && (
-            <PopupListDrug pdid={Id} onClose={() => setIsOpenPopup(false)} />
+            <PopupListDrug pdid={Id} thaiId={thaiId} onClose={() => setIsOpenPopup(false)} />
           )}
 
           <div className="col-span-2 grid grid-rows-2">

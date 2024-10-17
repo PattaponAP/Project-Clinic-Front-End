@@ -8,6 +8,7 @@ interface SelectedDrugItemProps {
     id: number;
     type: string;
   };
+
   onUpdateDispense: (dispense: Dispense[]) => void; 
 }
 

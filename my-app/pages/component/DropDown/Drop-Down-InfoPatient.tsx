@@ -28,7 +28,7 @@ interface InfoBill {
 
 interface DropDownInfoPatientProps {
   info: InfoBill;
-  onPaymentSuccess: () => void; // Added prop for payment success callback
+  onPaymentSuccess: () => void; 
 }
 
 const formatAppointmentDate = (dateString: string) => {
@@ -189,7 +189,7 @@ const DropDownInfoPatient = ({ info, onPaymentSuccess }: DropDownInfoPatientProp
         <div className="text-lg font-semibold mb-3 text-blue-500">ข้อมูลการนัดหมาย</div>
         <div className="flex justify-between text-base">
           <div className="font-medium">
-            วันที่นัดหมาย : {formatAppointmentDate(info.appointment)}
+            วันที่นัดหมาย : {info.appointment === "1000-10-10T00:00:00" ? "ไม่มีวันนัดหมาย" : formatAppointmentDate(info.appointment)}
           </div>
 
           <div className="text-2xl mr-4">

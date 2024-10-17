@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import GetSearchMed from "@/pages/api/GET/GetSearchMed";
+import GetRemed from "@/pages/api/GET/GetRemed"; // Import the new API
 import DrugItem from "./Popup-List-Drugs";
 import { ImCross } from "react-icons/im";
 import PostDispense from "@/pages/api/POST/PostDispense";
 
 interface PopupProps {
   onClose: (close: boolean) => void;
-  pdid: number 
+  pdid: number;
+  thaiId: any;
 }
 
 type DrugInfo = {
@@ -21,14 +23,14 @@ type Dispense = {
   amount: number;
 };
 
-export const PopupDrugs = ({ onClose, pdid }: PopupProps) => {
-  const [box, setBox] = useState([])
+export const PopupDrugs = ({ onClose, pdid, thaiId }: PopupProps) => {
   const [drugs, setDrugs] = useState<{ [key: string]: DrugInfo }>({});
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedDrugs, setSelectedDrugs] = useState<DrugInfo[]>([]);
   const [filteredDrugs, setFilteredDrugs] = useState<string[]>([]);
-  const [formDispense, setFormDispense] = useState<Dispense[]>([]); 
+  const [formDispense, setFormDispense] = useState<Dispense[]>([]);
 
+  // Fetch the drug list on component mount
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -44,6 +46,39 @@ export const PopupDrugs = ({ onClose, pdid }: PopupProps) => {
     fetchData();
   }, []);
 
+  // Fetch old drugs based on the provided Thai ID
+  const fetchOldDrugs = async () => {
+    try {
+      const res = await GetRemed(thaiId);
+
+      if (Array.isArray(res) && res.length > 0) {
+        const oldDrugs = res.map(drug => ({
+          id: drug.medicine_id,
+          type: "med", 
+          dispenseInfo: {
+            medicine_usage_frequency_id: drug.medicine_usage_frequency_id,
+            medicine_usage_time_id: drug.medicine_usage_time_id,
+            amount: drug.amount,
+          },
+        }));
+
+        setSelectedDrugs(prev => [...prev, ...oldDrugs]);
+        setFormDispense(prev => [
+          ...prev,
+          ...oldDrugs.map(drug => ({
+            medicine_id: drug.id,
+            medicine_usage_frequency_id: drug.dispenseInfo.medicine_usage_frequency_id,
+            medicine_usage_time_id: drug.dispenseInfo.medicine_usage_time_id,
+            amount: drug.dispenseInfo.amount,
+          })),
+        ]);
+      }
+    } catch (error) {
+      console.error("Error fetching old drugs:", error);
+    }
+  };
+
+  // Handle search input changes
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
@@ -54,6 +89,7 @@ export const PopupDrugs = ({ onClose, pdid }: PopupProps) => {
     setFilteredDrugs(filtered);
   };
 
+  // Select a drug from the search results
   const handleSelectDrug = (key: string) => {
     const drug = drugs[key];
 
@@ -66,21 +102,23 @@ export const PopupDrugs = ({ onClose, pdid }: PopupProps) => {
   };
 
   const handleFormDispenseUpdate = (newDispense: Dispense[]) => {
-    console.log(newDispense)
+    console.log(setFormDispense)
     setFormDispense(prev => [...prev, ...newDispense]);
   };
 
+  // Handle the submit action
   const handleSubmit = async () => {
     try {
       if (pdid) {
-        const res = await PostDispense({ formData: formDispense, pdid: pdid });
+        const res = await PostDispense({ formData: formDispense, pdid });
         onClose(false);
         console.log(res);
       }
     } catch (error) {
-        console.error("Error sending data:", error);
+      console.error("Error sending data:", error);
     }
-};
+  };
+
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10 overflow-auto">
@@ -101,6 +139,13 @@ export const PopupDrugs = ({ onClose, pdid }: PopupProps) => {
               <ImCross size={25} />
             </button>
           </div>
+
+          <button 
+            className="ml-8 p-2 border border-black px-5 rounded-xl bg-[#042446] hover:bg-white text-white hover:text-black transition-all "
+            onClick={fetchOldDrugs} 
+          >
+            ดึงข้อมูลยาเก่า
+          </button>
         </div>
 
         {searchTerm && filteredDrugs.length > 0 && (
@@ -127,21 +172,17 @@ export const PopupDrugs = ({ onClose, pdid }: PopupProps) => {
                 onUpdateDispense={handleFormDispenseUpdate} 
               />
             ))}
-            
           </div>
-
-          
-
         </div>
         <div className="flex justify-center">
           <button
             type="button"
-            className="bg-[#042446] border border-black text-white px-8 p-4 rounded-xl mt-4  hover:text-black hover:bg-white"
+            className="bg-[#042446] border border-black text-white px-8 p-4 rounded-xl mt-4 hover:text-black hover:bg-white"
             onClick={handleSubmit} 
           >
             บันทึกข้อมูล
           </button>
-          </div>
+        </div>
       </div>
     </div>
   );

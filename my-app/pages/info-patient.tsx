@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Loading } from "./component/Loading/Loading";
 import GetAllPatient from "./api/GET/GetAllPatient";
+import Link from "next/link";
 
 // กำหนดประเภทข้อมูล Patient
 type Patient = {
@@ -29,7 +30,7 @@ export default function InfoPatient() {
         const res = await GetAllPatient();
         if (res) {
           setDrugData(res);
-          setFilteredData(res); // เริ่มต้นแสดงข้อมูลทั้งหมด
+          setFilteredData(res); 
           console.log("res ok");
         }
       } catch (err: any) {
@@ -73,7 +74,8 @@ export default function InfoPatient() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filteredData.length > 0 ? (
               filteredData.map((patient) => (
-                <div key={patient.id} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                <Link key={patient.id} href={`/bill-data/${patient.id}`}>
+                <div key={patient.id} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 hover:bg-gray-200 transition-all">
                   <div className="text-lg font-semibold text-gray-800">{patient.full_name}</div>
                   <div className="text-gray-600 mt-1">เบอร์โทร : {patient.tel}</div>
                   <div className="text-gray-600">ที่อยู่ : {patient.address}</div>
@@ -81,6 +83,7 @@ export default function InfoPatient() {
                   <div className="text-gray-600">วันเกิด : {new Date(patient.date_of_birth).toLocaleDateString()}</div>
                   <div className="text-gray-600">เลขบัตรประชาชน : {patient.patient_id}</div>
                 </div>
+                </Link>
               ))
             ) : (
               <p className="text-center text-gray-500">ไม่มีข้อมูล</p>
