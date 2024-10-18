@@ -5,15 +5,15 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const GetBillById = async (id: any) => {
   try {
-    const token = Cookies.get('token'); // ดึง token จากคุกกี้
+    const token = Cookies.get('token'); 
 
     if (!token) {
-      throw new Error('No authentication token found'); // ถ้าไม่มี token ให้โยน error
+      throw new Error('No authentication token found'); 
     }
 
-    const res = await axios.get(`${API_URL}/cert/billData?bid=${id}`, {
+    const res = await axios.get(`${API_URL}/cert/billData?id=${id}&by=bid`, {
       headers: {
-        Authorization: `Bearer ${token}`, // ส่ง token ผ่าน Authorization header
+        Authorization: `Bearer ${token}`, 
       },
     });
 

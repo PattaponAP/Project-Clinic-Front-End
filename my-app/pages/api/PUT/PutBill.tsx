@@ -3,17 +3,17 @@ import Cookies from 'js-cookie';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export const PutBill = async (qid: number) => {
+export const PutBill = async (qid: any) => {
   try {
     const token = Cookies.get('token');
-
+    console.log("Token:", token); 
     const res = await axios.put(`${API_URL}/clinic/bill?bill_id=${qid}`, null, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
     });
 
-    return res.data; // Return response data
+    return res; 
 
   } catch (error) {
     if (axios.isAxiosError(error)) {

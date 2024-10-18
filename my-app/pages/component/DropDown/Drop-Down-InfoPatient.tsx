@@ -46,14 +46,16 @@ const DropDownInfoPatient = ({ info, onPaymentSuccess }: DropDownInfoPatientProp
 
   const handlePayment = async () => {
     setLoading(true);
-    setError(null);
+    setError(null);   
     try {
       const res = await PutBill(info.id); 
-      if (res && res.status === 200) { 
+      if (res) { 
         onPaymentSuccess(); 
       } else {
         throw new Error('Failed to process payment');
       }
+
+
     } catch (error) {
       setError("Payment processing failed. Please try again.");
       console.error(error);
@@ -63,12 +65,10 @@ const DropDownInfoPatient = ({ info, onPaymentSuccess }: DropDownInfoPatientProp
   };
 
   const handlePrint = async () => {
-    console.log(info.id)
     setLoading(true);
-    setError(null);
     try {
       const res = await GetBillById(info.id); 
-      console.log(res)
+
         if (res) {
           bill_printer(
             res[0].id, 

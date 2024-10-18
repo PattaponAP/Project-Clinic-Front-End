@@ -6,10 +6,9 @@ import Image from "next/image";
 
 interface LoginProps {
     onLogin: (status: boolean) => void;
-    name: (name: string) => void; 
 }
 
-export const Login = ({ onLogin, name }: LoginProps) => {
+export const Login = ({ onLogin }: LoginProps) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -19,6 +18,7 @@ export const Login = ({ onLogin, name }: LoginProps) => {
             try {
                 const res = await loginAuth({ username, password });
                 Cookies.set('token', res.data.detail.jwt, { expires: 1 });
+                Cookies.set('name', res.data.detail.name, { expires: 1 });
                 setError('');
                 onLogin(true);
             } catch (error) {

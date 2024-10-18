@@ -16,8 +16,8 @@ const kanit = Kanit({
 
 export default function App({ Component, pageProps }: AppProps) {
     const [isLogin, setIsLogin] = useState(false);
-    const [name, setName] = useState<string>(''); 
-    
+    const name = Cookies.get('name');
+
     useEffect(() => {
         const token = Cookies.get('token');
         if (token) {
@@ -32,10 +32,10 @@ export default function App({ Component, pageProps }: AppProps) {
     return (
         <div className="overflow-auto">
             {!isLogin ? (
-                <Login onLogin={setIsLogin} name={setName} />
+                <Login onLogin={setIsLogin}/>
             ) : (
                 <div className={`grid grid-cols-[300px_auto] min-h-screen ${kanit.className}`}>
-                    <NavBar />
+                    <NavBar name={name}/>
                     <div className="m-8">
                         <Component {...pageProps} name={name} />
                     </div>

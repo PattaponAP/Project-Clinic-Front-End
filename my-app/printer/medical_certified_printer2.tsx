@@ -117,8 +117,8 @@ export default function doctor_note_printer(
     }
 
     if (other === 'none') {
-        checkBox(90, 97, true); // Checkbox for โรคลมชัก
-        doc.text('ไม่มี', 93, 98.5); // Add ไม่มี text
+        checkBox(90, 97, true); //ประวัติ
+        doc.text('ไม่มี', 93, 98.5); 
     }
     else {
         checkBox(90, 97, true); // Checkbox for โรคลมชัก

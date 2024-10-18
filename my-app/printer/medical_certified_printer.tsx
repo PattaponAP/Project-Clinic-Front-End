@@ -4,7 +4,7 @@ import { callAddBoldFont } from '../fonts/THSarabunNew-bold.js';
 import { callAddItalicFont } from '../fonts/THSarabunNew-italic.js';
 import converter from './dateconverter';
 
-export default function doctor_note_printer(
+export default function  doctor_notedriving_printer(
     sheet_no: string,
     no: string,
     prefix: string,

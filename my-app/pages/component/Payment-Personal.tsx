@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import PopupListDrug from "./Popup/Popup-Drugs";
 import { FaCheck } from "react-icons/fa";
 import PostProcedure from "../api/POST/PostProcedure";
 import { InjectInfo } from "./DropDown/Inject-Info";
@@ -11,6 +10,7 @@ import PostDocternote from "../api/POST/PostDocternote";
 import Link from "next/link";
 import GetDispense from "../api/GET/GetDispense";
 import { Itim } from "next/font/google";
+import PopupDrugs from "./Popup/Popup-Drugs";
 
 type PatientData = {
   pdid: number;
@@ -224,33 +224,34 @@ export const PaymentPN = ({ Id, name, thaiId }: PaymentPNProps) => {
         </div>
 
         <div className="grid grid-cols-5 m-4">
-          <div className="relative row-span-1 col-span-3 ">
-            <div className="w-11/12 border border-black rounded-xl h-[150px]">
-            
-              <button
-                onClick={() => setIsOpenPopup(true)}
-                className=" relative w-full h-full p-2 border border-white rounded-xl hover:bg-gray-50 text-2xl text-transparent hover:text-black z-10 hover:bg-opacity-60"
-              >
-                กดเพื่อเพิ่มยา
-              </button>
-
-              
-
-              <div className=" absolute top-0 p-4  w-11/12 h-[150px] overflow-auto scrollbar-hidden">
+          <div className="relative row-span-1 col-span-3 flex ">
+            <div className="w-10/12 border border-black rounded-xl h-[150px] p-4">
+              <div className=" h-[120px] overflow-auto scrollbar-hidden space-y-2 ">
                 {dispenseItem.map(item => (
-                  <div key={Id} className="flex justify-between px-8">
-                    <div> {item.medicine_name} </div>
+                  <div key={Id} className="flex justify-between hover:bg-gray-200">
+                    <div className="w-24"> {item.medicine_name} </div>
                     <div> {item.usage_frequency_name} </div>
                     <div> {item.usage_time_name} </div>
-                    <div>จำนวน : {item.amount} </div>
+                    <div className="w-24">จำนวน : {item.amount} </div>
                   </div>
                 ))}
+                
               </div>
+              
             </div>
+             
+             <div className="flex items-center">
+              <button
+                  onClick={() => setIsOpenPopup(true)}
+                  className="p-4 mx-4 h-full hover:h-2/4  border text-black border-black hover:border hover:border-black rounded-xl hover:bg-[#042446] hover:text-white transition-all"
+                >
+                  เพิ่มยา
+                </button>
+              </div>
           </div>
 
           {isOpenPopup && (
-            <PopupListDrug  pdid={Id} thaiId={thaiId} onClose={() => setIsOpenPopup(false)} />
+            <PopupDrugs  pdid={Id} thaiId={thaiId} onClose={() => setIsOpenPopup(false)} />
           )}
 
           <div className="col-span-2 grid grid-rows-2">
@@ -305,9 +306,9 @@ export const PaymentPN = ({ Id, name, thaiId }: PaymentPNProps) => {
         </button>
         ) : (
           <Link 
-          href={"/payment"}
+          href={"/list-queue"}
           className="p-2 px-8 border border-black bg-[#042446] text-white rounded-xl shadow-xl hover:bg-white hover:text-black transition-all">
-          หน้าชำระเงิน 
+          ดูคิวทั้งหมด
           </Link>
         )}
         {check && <PopupCheck check={true} />}

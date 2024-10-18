@@ -31,11 +31,10 @@ export default function BillDataComponent() {
   return (
     <div className="p-4 h-[880px] bg-gray-200 rounded-xl overflow-auto scrollbar-hidden">
       {billData.length > 0 && 
-      <div className="text-2xl mb-2 p-2 w-full  rounded-xl flex flex-col gap-2">
+      <div className="text-2xl mb-2 p-2 w-full rounded-xl flex flex-col gap-2">
         <div className="font-semibold">คุณ {billData[0].full_name}</div>
         <div className="text-xl"><span className="font-semibold">เลขประจำตัวประชาชน</span> : {billData[0].thai_id}</div>
         </div>
-      
       }
       <div className="space-y-4">
         {billData.map((bill, index) => (
@@ -43,9 +42,7 @@ export default function BillDataComponent() {
             key={index}
             className="border p-4 rounded-lg shadow-lg bg-white"
           >
-            <h2 className="text-lg font-semibold">
-              ครั้งที่ {index + 1}
-            </h2>
+            <h2 className="text-lg font-semibold">ครั้งที่ {index + 1}</h2>
             <div>วันที่เข้ารักษา : {new Date(bill.date).toLocaleDateString()}</div>
             <div>วันที่นัดหมาย : {new Date(bill.appointment).toLocaleDateString() === "10/10/1000" ? "ไม่มี" : new Date(bill.appointment).toLocaleDateString()}</div>
             <div>ราคาทั้งหมด : {bill.price} บาท</div>
@@ -53,9 +50,11 @@ export default function BillDataComponent() {
               <h3 className="font-semibold text-lg">รายการสินค้า :</h3>
               {bill.items.length > 0 ? (
                 <div className="list-disc pl-5 px-8">
+                  {/* แยกประเภทสินค้า */}
                   {bill.items.map((item, idx) => (
                     <li key={idx}>
-                      {item.description} - {item.quantity} ชิ้น
+                      {item.description} - {item.quantity} 
+                      {item.description === "Ear Cleaning" || item.description === "Tapping" || item.description === "My Ringo" ? " ชิ้น" : " เม็ด"}
                     </li>
                   ))}
                 </div>

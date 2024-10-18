@@ -43,7 +43,6 @@ export default function Infopatient() {
     fetchData();
   }, []);
 
-  // ฟังก์ชันสำหรับจัดการการค้นหาจากชื่อ
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);

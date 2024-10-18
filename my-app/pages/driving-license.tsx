@@ -1,9 +1,9 @@
-import doctor_note_printer from "@/printer/medical_certified_printer";
 import { useState } from "react";
-import PostMedCert from "./api/POST/PostMedCert";
-import GetMedCert from "./api/GET/GetMedCert";
+import { PostMedCert } from "./api/POST/PostMedCert";
+import doctor_note_printer from "@/printer/medical_certified_printer";
+import doctor_notedriving_printer from "@/printer/medical_certified_printer";
 
-export default function DoctorForm() {
+export default function DoctorFormDriving() {
   const [formData, setFormData] = useState({
     sheet_no: "",
     prefix: "",
@@ -12,8 +12,9 @@ export default function DoctorForm() {
     thai_id: "",
     congenital: "",
     surgery: "",
-    hospitalize: "",
     epilepsy: "",
+    hospitalize: "",
+    other: "",
     etc: "",
     weight: "",
     height: "",
@@ -24,12 +25,13 @@ export default function DoctorForm() {
     comment: "",
   });
 
-  const [address2, setAddress2] = useState("");
   const [surgeryDetail, setSurgeryDetail] = useState("");
   const [congenitalDetail, setCongenitalDetail] = useState("");
   const [hospitalizeDetail, setHospitalizeDetail] = useState("");
-  const [epilepsyDetail, setEpilepsyDetail] = useState("");
+  const [otherDetail, setOtherDetail] = useState("");
   const [etcDetail, setEtcDetail] = useState("");
+  const [diagnoseDetail, setDiagnoseDetail] = useState("");
+  const [epilepsyDetail, setEpilepsyDetail] = useState("");
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -52,25 +54,26 @@ export default function DoctorForm() {
       fullname: formData.fullname,
       address: formData.address,
       thai_id: formData.thai_id,
-      congenital: formData.congenital === "กรอกข้อมูล" ? congenitalDetail : formData.congenital,
-      surgery: formData.surgery === "กรอกข้อมูล" ? surgeryDetail : formData.surgery,
-      hospitalize: formData.hospitalize === "กรอกข้อมูล" ? hospitalizeDetail : formData.hospitalize,
-      epilepsy: formData.epilepsy === "กรอกข้อมูล" ? epilepsyDetail : formData.epilepsy,
-      etc: formData.etc === "กรอกข้อมูล" ? etcDetail : formData.etc,
+      congenital: formData.congenital === "have" ? congenitalDetail : formData.congenital || "none",
+      surgery: formData.surgery === "have" ? surgeryDetail : formData.surgery || "none",
+      hospitalize: formData.hospitalize === "have" ? hospitalizeDetail : formData.hospitalize || "none",
+      other: formData.other === "have" ? otherDetail : formData.other || "none",
+      etc: formData.etc === "have" ? etcDetail : formData.etc || "none",
+      epilepsy: formData.epilepsy === "have" ? epilepsyDetail : formData.epilepsy || "none",
       weight: Number(formData.weight),
       height: Number(formData.height),
       blood_pressure: formData.blood_pressure,
       heart_rate: Number(formData.heart_rate),
-      diagnose: formData.diagnose,
-      diagnose_etc: formData.diagnose_etc,
-      comment: formData.comment,
+      diagnose: formData.diagnose === "ผิดปกติ" ? diagnoseDetail : formData.diagnose || "normal",
+      diagnose_etc: formData.diagnose_etc || "none",
+      comment: formData.comment || "none",
     };
+
 
     try {
       const res = await PostMedCert(medCertData);
-      console.log(res);
       if (res) {
-        doctor_note_printer(
+        doctor_notedriving_printer(
           res.sheet_no,
           res.no,
           res.prefix,
@@ -92,6 +95,7 @@ export default function DoctorForm() {
           res.diagnose_etc,
           res.comment
         );
+        
         console.log("FORM POST OK");
       }
     } catch (error) {
@@ -110,7 +114,6 @@ export default function DoctorForm() {
           className="grid grid-cols-1 md:grid-cols-2 gap-4"
         >
           {/* Personal Info */}
-
           <div className="flex flex-col ">
             <label htmlFor="sheet_no" className="font-semibold">
               เลขที่แผ่น:
@@ -153,9 +156,9 @@ export default function DoctorForm() {
               className="p-2 border border-gray-300 rounded"
               required
             />
-            </div>
+          </div>
           <div className="flex flex-col">
-            <label htmlFor="full_name" className="font-semibold">
+            <label htmlFor="fullname" className="font-semibold">
               ชื่อเต็ม:
             </label>
             <input
@@ -183,7 +186,6 @@ export default function DoctorForm() {
             />
           </div>
          
-          
           {/* Optional Medical Info */}
           <div className="flex flex-col col-span-2">
             <label htmlFor="surgery" className="font-semibold">
@@ -195,16 +197,16 @@ export default function DoctorForm() {
               value={formData.surgery}
               onChange={(e) => {
                 handleInputChange(e);
-                if (e.target.value === "กรอกข้อมูล") {
+                if (e.target.value === "have") {
                   setSurgeryDetail("");
                 }
               }}
               className="p-2 border border-gray-300 rounded"
             >
               <option value="none">ไม่มี</option>
-              <option value="กรอกข้อมูล">กรอกข้อมูล</option>
+              <option value="have">มี</option>
             </select>
-            {formData.surgery === "กรอกข้อมูล" && (
+            {formData.surgery === "have" && (
               <input
                 type="text"
                 value={surgeryDetail}
@@ -225,16 +227,16 @@ export default function DoctorForm() {
               value={formData.congenital}
               onChange={(e) => {
                 handleInputChange(e);
-                if (e.target.value === "กรอกข้อมูล") {
+                if (e.target.value === "have") {
                   setCongenitalDetail("");
                 }
               }}
               className="p-2 border border-gray-300 rounded"
             >
               <option value="none">ไม่มี</option>
-              <option value="กรอกข้อมูล">กรอกข้อมูล</option>
+              <option value="have">มี</option>
             </select>
-            {formData.congenital === "กรอกข้อมูล" && (
+            {formData.congenital === "have" && (
               <input
                 type="text"
                 value={congenitalDetail}
@@ -244,8 +246,36 @@ export default function DoctorForm() {
               />
             )}
           </div>
-
           <div className="flex flex-col">
+            <label htmlFor="hospitalize" className="font-semibold">
+              โรคลมชัก
+            </label>
+            <select
+              id="epilepsy"
+              name="epilepsy"
+              value={formData.epilepsy}
+              onChange={(e) => {
+                handleInputChange(e);
+                if (e.target.value === "have") {
+                  setEpilepsyDetail("");
+                }
+              }}
+              className="p-2 border border-gray-300 rounded"
+            >
+              <option value="none">ไม่มี</option>
+              <option value="have">มี</option>
+            </select>
+            {formData.hospitalize === "have" && (
+              <input
+                type="text"
+                value={hospitalizeDetail}
+                onChange={(e) => setHospitalizeDetail(e.target.value)}
+                className="p-2 border border-gray-300 rounded mt-2"
+                placeholder="กรุณากรอกรายละเอียดการนอนโรงพยาบาล"
+              />
+            )}
+          </div>
+          <div className="flex flex-col col-span-2">
             <label htmlFor="hospitalize" className="font-semibold">
               ต้องนอนโรงพยาบาล:
             </label>
@@ -255,16 +285,16 @@ export default function DoctorForm() {
               value={formData.hospitalize}
               onChange={(e) => {
                 handleInputChange(e);
-                if (e.target.value === "กรอกข้อมูล") {
+                if (e.target.value === "have") {
                   setHospitalizeDetail("");
                 }
               }}
               className="p-2 border border-gray-300 rounded"
             >
               <option value="none">ไม่มี</option>
-              <option value="กรอกข้อมูล">กรอกข้อมูล</option>
+              <option value="have">มี</option>
             </select>
-            {formData.hospitalize === "กรอกข้อมูล" && (
+            {formData.hospitalize === "have" && (
               <input
                 type="text"
                 value={hospitalizeDetail}
@@ -275,37 +305,7 @@ export default function DoctorForm() {
             )}
           </div>
 
-          <div className="flex flex-col">
-            <label htmlFor="epilepsy" className="font-semibold">
-              โรคลมชัก:
-            </label>
-            <select
-              id="epilepsy"
-              name="epilepsy"
-              value={formData.epilepsy}
-              onChange={(e) => {
-                handleInputChange(e);
-                if (e.target.value === "กรอกข้อมูล") {
-                  setEpilepsyDetail("");
-                }
-              }}
-              className="p-2 border border-gray-300 rounded"
-            >
-              <option value="none">ไม่มี</option>
-              <option value="กรอกข้อมูล">กรอกข้อมูล</option>
-            </select>
-            {formData.epilepsy === "กรอกข้อมูล" && (
-              <input
-                type="text"
-                value={epilepsyDetail}
-                onChange={(e) => setEpilepsyDetail(e.target.value)}
-                className="p-2 border border-gray-300 rounded mt-2"
-                placeholder="กรุณากรอกรายละเอียดโรคลมชัก"
-              />
-            )}
-          </div>
-
-          <div className="flex flex-col">
+          <div className="flex flex-col col-span-2">
             <label htmlFor="etc" className="font-semibold">
               อื่นๆ:
             </label>
@@ -315,27 +315,27 @@ export default function DoctorForm() {
               value={formData.etc}
               onChange={(e) => {
                 handleInputChange(e);
-                if (e.target.value === "กรอกข้อมูล") {
-                  setEtcDetail("");
+                if (e.target.value === "have") {
+                  setOtherDetail("");
                 }
               }}
               className="p-2 border border-gray-300 rounded"
             >
               <option value="none">ไม่มี</option>
-              <option value="กรอกข้อมูล">กรอกข้อมูล</option>
+              <option value="have">มี</option>
             </select>
-            {formData.etc === "กรอกข้อมูล" && (
+            {formData.etc === "have" && (
               <input
                 type="text"
                 value={etcDetail}
                 onChange={(e) => setEtcDetail(e.target.value)}
                 className="p-2 border border-gray-300 rounded mt-2"
-                placeholder="กรุณากรอกรายละเอียดเพิ่มเติม"
+                placeholder="กรุณากรอกรายละเอียดอื่นๆ"
               />
             )}
           </div>
 
-          {/* Health Metrics */}
+          {/* Medical Measurements */}
           <div className="flex flex-col">
             <label htmlFor="weight" className="font-semibold">
               น้ำหนัก (กก.):
@@ -383,7 +383,7 @@ export default function DoctorForm() {
 
           <div className="flex flex-col">
             <label htmlFor="heart_rate" className="font-semibold">
-              อัตราการเต้นของหัวใจ:
+              อัตราการเต้นของหัวใจ (ครั้ง/นาที):
             </label>
             <input
               type="number"
@@ -396,33 +396,35 @@ export default function DoctorForm() {
             />
           </div>
 
-          {/* Diagnosis */}
+          {/* Diagnose Info */}
           <div className="flex flex-col col-span-2">
             <label htmlFor="diagnose" className="font-semibold">
-              การวินิจฉัย:
+              ผลการวินิจฉัย:
             </label>
-            <input
-              type="text"
+            <select
               id="diagnose"
               name="diagnose"
               value={formData.diagnose}
-              onChange={handleInputChange}
+              onChange={(e) => {
+                handleInputChange(e);
+                if (e.target.value === "ผิดปกติ") {
+                  setDiagnoseDetail("");
+                }
+              }}
               className="p-2 border border-gray-300 rounded"
-              required
-            />
-          </div>
-
-          <div className="flex flex-col col-span-2">
-            <label htmlFor="diagnose_etc" className="font-semibold">
-              การวินิจฉัยเพิ่มเติม:
-            </label>
-            <textarea
-              id="diagnose_etc"
-              name="diagnose_etc"
-              value={formData.diagnose_etc}
-              onChange={handleInputChange}
-              className="p-2 border border-gray-300 rounded"
-            />
+            >
+              <option value="ปกติ">ปกติ</option>
+              <option value="ผิดปกติ">ผิดปกติ</option>
+            </select>
+            {formData.diagnose === "ผิดปกติ" && (
+              <input
+                type="text"
+                value={diagnoseDetail}
+                onChange={(e) => setDiagnoseDetail(e.target.value)}
+                className="p-2 border border-gray-300 rounded mt-2"
+                placeholder="กรุณากรอกรายละเอียดผลการวินิจฉัย"
+              />
+            )}
           </div>
 
           <div className="flex flex-col col-span-2">
@@ -435,15 +437,16 @@ export default function DoctorForm() {
               value={formData.comment}
               onChange={handleInputChange}
               className="p-2 border border-gray-300 rounded"
+              placeholder="กรุณากรอกรายละเอียดเพิ่มเติม"
             />
           </div>
 
-          <div className="flex justify-end col-span-2">
+          <div className="col-span-2">
             <button
               type="submit"
-              className="bg-[#042446] text-white p-4 px-16 rounded hover:bg-blue-600"
+              className="w-full py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition"
             >
-              ส่งข้อมูล
+              ยืนยันการกรอกข้อมูล
             </button>
           </div>
         </form>

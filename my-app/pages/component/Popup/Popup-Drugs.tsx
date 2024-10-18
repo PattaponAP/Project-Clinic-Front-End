@@ -26,6 +26,7 @@ type Dispense = {
 export const PopupDrugs = ({ onClose, pdid, thaiId }: PopupProps) => {
   const [drugs, setDrugs] = useState<{ [key: string]: DrugInfo }>({});
   const [searchTerm, setSearchTerm] = useState<string>("");
+  
   const [selectedDrugs, setSelectedDrugs] = useState<DrugInfo[]>([]);
   const [filteredDrugs, setFilteredDrugs] = useState<string[]>([]);
   const [formDispense, setFormDispense] = useState<Dispense[]>([]);
@@ -52,26 +53,13 @@ export const PopupDrugs = ({ onClose, pdid, thaiId }: PopupProps) => {
       const res = await GetRemed(thaiId);
 
       if (Array.isArray(res) && res.length > 0) {
+        // ส่งแค่ id และ type ไปยัง selectedDrugs
         const oldDrugs = res.map(drug => ({
           id: drug.medicine_id,
-          type: "med", 
-          dispenseInfo: {
-            medicine_usage_frequency_id: drug.medicine_usage_frequency_id,
-            medicine_usage_time_id: drug.medicine_usage_time_id,
-            amount: drug.amount,
-          },
+          type: "med",
         }));
 
         setSelectedDrugs(prev => [...prev, ...oldDrugs]);
-        setFormDispense(prev => [
-          ...prev,
-          ...oldDrugs.map(drug => ({
-            medicine_id: drug.id,
-            medicine_usage_frequency_id: drug.dispenseInfo.medicine_usage_frequency_id,
-            medicine_usage_time_id: drug.dispenseInfo.medicine_usage_time_id,
-            amount: drug.dispenseInfo.amount,
-          })),
-        ]);
       }
     } catch (error) {
       console.error("Error fetching old drugs:", error);
@@ -165,7 +153,7 @@ export const PopupDrugs = ({ onClose, pdid, thaiId }: PopupProps) => {
 
         <div>
           <h2 className="text-lg font-semibold ">ยาที่เลือก</h2>
-          <div className="rounded-lg p-2 min-h-[430px] overflow-auto scrollbar-hidden">
+          <div className="rounded-lg p-2 h-[420px] overflow-auto scrollbar-hidden">
             {selectedDrugs.map(drug => (
               <DrugItem 
                 key={drug.id} 
