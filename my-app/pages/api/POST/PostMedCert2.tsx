@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from 'js-cookie';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -24,6 +25,8 @@ interface FormData {
 
 export const PostMedCert2 = async (formData: FormData) => {
   try {
+    const token = Cookies.get('token');
+
     const queryParams = new URLSearchParams({
       sheet_no: formData.sheet_no.toString(),
       prefix: formData.prefix,
@@ -44,12 +47,12 @@ export const PostMedCert2 = async (formData: FormData) => {
       comment: formData.comment,
     });
 
-    console.log(queryParams)
     const response = await axios.post(`${API_URL}/cert/medcert2`, null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       params: queryParams
     });
-
-    console.log("Response data:", response.data);
 
     return response.data;
 

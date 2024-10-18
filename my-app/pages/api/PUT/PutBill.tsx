@@ -1,14 +1,20 @@
 import axios from "axios";
+import Cookies from 'js-cookie';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-
-
-export const PutBill = async (qid : number) => {
+export const PutBill = async (qid: number) => {
   try {
-    const res = await axios.put(`${API_URL}/clinic/bill?bill_id=${qid}`) 
-    return res
-    
+    const token = Cookies.get('token');
+
+    const res = await axios.put(`${API_URL}/clinic/bill?bill_id=${qid}`, null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return res.data; // Return response data
+
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error("Response data:", error.response?.data);

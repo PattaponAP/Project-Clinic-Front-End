@@ -141,6 +141,7 @@ export const PaymentPN = ({ Id, name, thaiId }: PaymentPNProps) => {
 
   useEffect(() => {
     getData();
+    
   }, [Id]);
 
   useEffect(() => {
@@ -228,7 +229,7 @@ export const PaymentPN = ({ Id, name, thaiId }: PaymentPNProps) => {
             
               <button
                 onClick={() => setIsOpenPopup(true)}
-                className=" relative w-full h-full p-2 border border-white rounded-xl hover:bg-gray-50 text-2xl text-gray-200 hover:text-black z-10 hover:bg-opacity-60"
+                className=" relative w-full h-full p-2 border border-white rounded-xl hover:bg-gray-50 text-2xl text-transparent hover:text-black z-10 hover:bg-opacity-60"
               >
                 กดเพื่อเพิ่มยา
               </button>
@@ -249,7 +250,7 @@ export const PaymentPN = ({ Id, name, thaiId }: PaymentPNProps) => {
           </div>
 
           {isOpenPopup && (
-            <PopupListDrug pdid={Id} thaiId={thaiId} onClose={() => setIsOpenPopup(false)} />
+            <PopupListDrug  pdid={Id} thaiId={thaiId} onClose={() => setIsOpenPopup(false)} />
           )}
 
           <div className="col-span-2 grid grid-rows-2">

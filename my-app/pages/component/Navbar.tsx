@@ -69,7 +69,7 @@ export const NavBar = () => {
                             }`}
                     >
                         <Link href={"/info-drug"}><div className="py-4 hover:bg-gray-600 p-2">ดูข้อมูลยาทั้งหมด</div></Link>
-                        <Link href={"/info-patient"}><div className="py-4 hover:bg-gray-600 p-2">ดูข้อมูลผู้ป่วย</div></Link>
+                        <Link href={"/infopatient"}><div className="py-4 hover:bg-gray-600 p-2">ดูข้อมูลผู้ป่วย</div></Link>
 
                     </div>
                 </div>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from 'js-cookie'; // นำเข้า js-cookie เพื่อนำเข้า token
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -16,12 +17,18 @@ interface PostDispenseParams {
 
 export const PostDispense = async ({ formData, pdid }: PostDispenseParams) => {
     try {
-        console.log("Request Body:", formData); 
+        const token = Cookies.get('token'); 
 
-        const response = await axios.post(`${API_URL}/clinic/dispense?pdid=${pdid}`, formData);
-        
-        console.log('Response data:', response.data); 
-        
+        if (!token) {
+            throw new Error('No authentication token found'); 
+        }
+
+        const response = await axios.post(`${API_URL}/clinic/dispense?pdid=${pdid}`, formData, {
+            headers: {
+                Authorization: `Bearer ${token}`, 
+            },
+        });
+
         return response.data; 
 
     } catch (error) {

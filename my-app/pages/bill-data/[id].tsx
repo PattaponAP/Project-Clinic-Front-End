@@ -46,18 +46,19 @@ export default function BillDataComponent() {
             <h2 className="text-lg font-semibold">
               ครั้งที่ {index + 1}
             </h2>
-            <p>วันที่นัดหมาย: {new Date(bill.appointment).toLocaleDateString()}</p>
-            <p>ราคาทั้งหมด: {bill.price} บาท</p>
+            <div>วันที่เข้ารักษา : {new Date(bill.date).toLocaleDateString()}</div>
+            <div>วันที่นัดหมาย : {new Date(bill.appointment).toLocaleDateString() === "10/10/1000" ? "ไม่มี" : new Date(bill.appointment).toLocaleDateString()}</div>
+            <div>ราคาทั้งหมด : {bill.price} บาท</div>
             <div className="mt-2">
               <h3 className="font-semibold text-lg">รายการสินค้า :</h3>
               {bill.items.length > 0 ? (
-                <ul className="list-disc pl-5">
+                <div className="list-disc pl-5 px-8">
                   {bill.items.map((item, idx) => (
                     <li key={idx}>
                       {item.description} - {item.quantity} ชิ้น
                     </li>
                   ))}
-                </ul>
+                </div>
               ) : (
                 <p>ไม่มีรายการสินค้า</p>
               )}

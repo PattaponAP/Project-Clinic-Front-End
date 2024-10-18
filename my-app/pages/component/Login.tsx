@@ -18,8 +18,7 @@ export const Login = ({ onLogin, name }: LoginProps) => {
         if (username && password) {
             try {
                 const res = await loginAuth({ username, password });
-                console.log(res);
-                Cookies.set('token', res.data.jwt, { expires: 1 });
+                Cookies.set('token', res.data.detail.jwt, { expires: 1 });
                 setError('');
                 onLogin(true);
             } catch (error) {

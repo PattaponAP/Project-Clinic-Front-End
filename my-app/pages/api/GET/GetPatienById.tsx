@@ -1,9 +1,17 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export const GetPatienById = async(id : any) => {
+export const GetPatientById = async (id: any) => {
   try {
-     const res = await axios.get(`${API_URL}/mgmt/patient?GetBy=qid&GetDoc=${id}`);
+    const token = Cookies.get('token'); 
+
+    const res = await axios.get(`${API_URL}/mgmt/patient?GetBy=qid&GetDoc=${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+    });
 
     return res.data;
 
@@ -19,4 +27,4 @@ export const GetPatienById = async(id : any) => {
   }
 }
 
-export default GetPatienById;
+export default GetPatientById;

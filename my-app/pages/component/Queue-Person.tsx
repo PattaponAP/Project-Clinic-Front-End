@@ -27,7 +27,7 @@ export const QueuePersonal = () => {
 
         try {
             const response = await GetQueue();
-            setQueueData(response.data); // อัปเดตข้อมูลใน queueData
+            setQueueData(response.data); 
         } catch (err) {
             setError("เกิดข้อผิดพลาดในการดึงข้อมูล");
         } finally {

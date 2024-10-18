@@ -3,7 +3,6 @@ import { Loading } from "./component/Loading/Loading";
 import GetAllPatient from "./api/GET/GetAllPatient";
 import Link from "next/link";
 
-// กำหนดประเภทข้อมูล Patient
 type Patient = {
   thai_id: string;
   full_name: string;
@@ -16,7 +15,7 @@ type Patient = {
   patient_id: string;
 };
 
-export default function InfoPatient() {
+export default function Infopatient() {
   const [drugData, setDrugData] = useState<Patient[]>([]);
   const [filteredData, setFilteredData] = useState<Patient[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -74,8 +73,8 @@ export default function InfoPatient() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filteredData.length > 0 ? (
               filteredData.map((patient) => (
-                <Link key={patient.id} href={`/bill-data/${patient.id}`}>
-                <div key={patient.id} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 hover:bg-gray-200 transition-all">
+                <Link key={patient.id}  href={`/bill-data/${patient.id}`}>
+                <div  className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg duration-300 hover:bg-gray-200 transition-all">
                   <div className="text-lg font-semibold text-gray-800">{patient.full_name}</div>
                   <div className="text-gray-600 mt-1">เบอร์โทร : {patient.tel}</div>
                   <div className="text-gray-600">ที่อยู่ : {patient.address}</div>
@@ -94,3 +93,7 @@ export default function InfoPatient() {
     </div>
   );
 }
+function patient() {
+  throw new Error("Function not implemented.");
+}
+

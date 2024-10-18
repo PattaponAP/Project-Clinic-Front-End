@@ -149,7 +149,8 @@ export const PopupDrugs = ({ onClose, pdid, thaiId }: PopupProps) => {
         </div>
 
         {searchTerm && filteredDrugs.length > 0 && (
-          <div className="absolute mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-10 max-w-[250px] min-w-[250px]">
+          <div className="absolute p-2 bg-white border border-gray-300 rounded-lg shadow-lg z-10 h-[350px] max-w-[250px] min-w-[250px] overflow-auto scrollbar-hidden {
+">
             {filteredDrugs.map(key => (
               <div
                 key={key}

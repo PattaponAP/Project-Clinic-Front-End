@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from 'js-cookie';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -11,19 +12,23 @@ type PatientData = {
     price: number;
     appointment: string;
     annotate: string;
-    inject_id: number; // แก้ไขเพื่อให้ตรงกับข้อมูลที่ส่ง
+    inject_id: number;
 };
 
 export const PostProcedure = async (formData: PatientData) => {
   try {
+    const token = Cookies.get('token');
+
     const requestBody = [
       {
         injection_id: formData.inject_id,
       }
     ];
 
-
     const response = await axios.post(`${API_URL}/clinic/procedure`, requestBody, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       params: {
         pdid: formData.pdid,
         diagnose: formData.diagnose,
@@ -36,8 +41,7 @@ export const PostProcedure = async (formData: PatientData) => {
       },
     });
 
-    console.log('Response data:', response.data);
-    return response;
+    return response.data;
 
   } catch (error) {
     if (axios.isAxiosError(error)) {
