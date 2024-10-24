@@ -21,7 +21,7 @@ export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
     address: "",
     gender: "",
     date_of_birth: "",
-    ucs: false,
+    ucs: true,
     height: 0,
     weight: 0,
     blood_pressure: "",
@@ -35,7 +35,9 @@ export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    const newValue = name === "usc" ? value === "true" : value;
+
+    const newValue = name === "ucs" ? value === "true" : value;
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: newValue,
@@ -161,7 +163,8 @@ export const ManagementInfo = ({ setCheck }: InfoBodyProps) => {
                 </div>
                 <div className="col-span-2">
                   <select
-                    name="usc"
+                    name="ucs"
+                    value={formData.ucs ? "true" : "false"}
                     onChange={handleChange}
                     className="border border-black rounded-xl p-3 w-full"
                   >

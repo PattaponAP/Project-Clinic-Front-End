@@ -5,9 +5,6 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export const GetAllPatient = async() => {
   try {
     const token = Cookies.get('token'); 
-
-    console.log(token)
-    
     if (!token) {
       throw new Error('No authentication token found');
     }
@@ -21,7 +18,6 @@ export const GetAllPatient = async() => {
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error("Response data:", error.response?.data);
-      throw new Error(`Failed to fetch patient data: ${error.response?.status} - ${error.message}`);
     } else if (error instanceof Error) {
       throw new Error(`Failed to fetch patient data: ${error.message}`);
     } else {

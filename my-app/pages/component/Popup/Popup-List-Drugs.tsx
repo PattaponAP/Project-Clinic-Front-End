@@ -103,7 +103,6 @@ const DrugItem: React.FC<SelectedDrugItemProps> = ({ drug, onUpdateDispense }) =
   const handleDeleteMed = (medicineName: string) => {
     setMedSetInfo(prevMedSetInfo => {
       const updatedMedSetInfo = prevMedSetInfo.filter(med => med.name !== medicineName);
-      console.log("Updated MedSetInfo (Med):", updatedMedSetInfo); 
       return updatedMedSetInfo;
     });
   };
@@ -111,7 +110,6 @@ const DrugItem: React.FC<SelectedDrugItemProps> = ({ drug, onUpdateDispense }) =
   const handleDeleteSet = (medicineName: string) => {
     setMedSetInfo(prevMedSetInfo => {
       const updatedMedSetInfo = prevMedSetInfo.filter(set => set.medicine_name !== medicineName);
-      console.log("Updated MedSetInfo (Set):", updatedMedSetInfo); 
       return updatedMedSetInfo;
     });
   };

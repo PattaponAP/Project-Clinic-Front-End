@@ -10,7 +10,6 @@ export const GetMedSetById = async(id : any) => {
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error("Response data:", error.response?.data);
-      throw new Error(`Failed to fetch queue data: ${error.response?.status} - ${error.message}`);
     } else if (error instanceof Error) {
       throw new Error(`Failed to fetch queue data: ${error.message}`);
     } else {

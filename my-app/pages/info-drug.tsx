@@ -2,28 +2,27 @@ import { useEffect, useState } from "react";
 import GetSearchMed from "./api/GET/GetSearchMed";
 import { Loading } from "./component/Loading/Loading";
 
-// กำหนดประเภทข้อมูลยา
 type Drug = {
   id: number;
   type: string;
 };
 
 export default function InfoDrug() {
-  const [drugData, setDrugData] = useState<[string, Drug][]>([]); // ข้อมูลยา
-  const [filteredData, setFilteredData] = useState<[string, Drug][]>([]); // ข้อมูลยาที่กรองแล้ว
-  const [error, setError] = useState<string | null>(null); // สำหรับเก็บ error
-  const [isLoading, setIsLoading] = useState<boolean>(true); // สำหรับแสดงสถานะการโหลด
-  const [searchQuery, setSearchQuery] = useState<string>(""); // สำหรับเก็บค่าการค้นหา
+  const [drugData, setDrugData] = useState<[string, Drug][]>([]); 
+  const [filteredData, setFilteredData] = useState<[string, Drug][]>([]); 
+  const [error, setError] = useState<string | null>(null); 
+  const [isLoading, setIsLoading] = useState<boolean>(true); 
+  const [searchQuery, setSearchQuery] = useState<string>(""); 
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true); // เริ่มโหลดข้อมูล
+      setIsLoading(true); 
       try {
         const res = await GetSearchMed();
         if (res && res.data) {
           const drugsArray = Object.entries(res.data) as [string, Drug][]; 
           setDrugData(drugsArray); 
-          setFilteredData(drugsArray); // เริ่มต้นแสดงข้อมูลทั้งหมด
+          setFilteredData(drugsArray); 
         }
       } catch (err: any) {
         setError(err.message);
@@ -36,7 +35,6 @@ export default function InfoDrug() {
     fetchData();
   }, []);
 
-  // ฟังก์ชันสำหรับจัดการการค้นหา
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);

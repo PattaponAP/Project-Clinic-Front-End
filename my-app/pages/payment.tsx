@@ -23,6 +23,7 @@ type InfoBill = {
   annotate: string;
   price: number;
   appointment: string;
+  ucs: boolean
 };
 
 export default function ListPayment() {

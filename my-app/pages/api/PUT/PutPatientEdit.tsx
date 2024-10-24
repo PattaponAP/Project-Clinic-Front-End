@@ -11,17 +11,10 @@ interface PatientData {
     gender: string;
     date_of_birth: string;
     tel: string;
-    height?: number;  
-    weight?: number;  
-    blood_pressure?: string;  
-    heart_rate?: number;  
-    temperature?: number;  
-    allergy?: string;  
-    symptom?: string;  
   };
   
 
-export const PutPatient = async (formData: PatientData) => {
+export const PutPatientEdit = async (formData: PatientData) => {
     try {
         const token = Cookies.get('token');
 
@@ -34,13 +27,7 @@ export const PutPatient = async (formData: PatientData) => {
                 gender: formData.gender,
                 date_of_birth: formData.date_of_birth,
                 ucs: formData.ucs,
-                height: formData.height,
-                weight: formData.weight,
-                blood_pressure: formData.blood_pressure,
-                heart_rate: formData.heart_rate,
-                temperature: formData.temperature,
-                allergy: formData.allergy,
-                symptom: formData.symptom,
+
             },
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -56,4 +43,4 @@ export const PutPatient = async (formData: PatientData) => {
     }
 }
 
-export default PutPatient;
+export default PutPatientEdit;

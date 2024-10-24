@@ -24,6 +24,7 @@ interface InfoBill {
   annotate: string;
   price: number;
   appointment: string;
+  ucs: boolean
 }
 
 interface DropDownInfoPatientProps {
@@ -118,6 +119,10 @@ const DropDownInfoPatient = ({ info, onPaymentSuccess }: DropDownInfoPatientProp
         <div className="w-1/2 text-base ">
           ชื่อผู้ป่วย :          
           <span className="font-medium text-[18px]"> {info.patient_name} </span>
+        </div>
+        <div className="text-base flex ">
+          สิทธิการรักษา : 
+          <span className="font-medium text-[18px] " > {info.ucs ? <span className="text-green-500 ml-2">มีสิทธิการรักษา</span> : <span className="text-red-500  ml-2">ไม่มีสิทธิการรักษา</span>} </span> 
         </div>
         <div className="text-base">
           การวินิจฉัย : 

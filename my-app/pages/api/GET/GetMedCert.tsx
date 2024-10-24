@@ -21,14 +21,15 @@ export const GetMedCert = async (thai_id: any) => {
 
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error("Response data:", error.response?.data);
-      throw new Error(`Failed to fetch medical certificate data: ${error.response?.status} - ${error.message}`);
+        console.error("Response data:", error.response?.data);
+        const message = error.response?.data || 'Unknown error';
+        throw new Error(`Failed to fetch dispense data: ${message} - ${error.message}`);
     } else if (error instanceof Error) {
-      throw new Error(`Failed to fetch medical certificate data: ${error.message}`);
+        throw new Error(`Failed to fetch dispense data: ${error.message}`);
     } else {
-      throw new Error('Failed to fetch medical certificate data due to an unknown error');
+        throw new Error('Failed to fetch dispense data due to an unknown error');
     }
-  }
+}
 }
 
 export default GetMedCert;

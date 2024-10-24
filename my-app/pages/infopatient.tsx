@@ -72,7 +72,7 @@ export default function Infopatient() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filteredData.length > 0 ? (
               filteredData.map((patient) => (
-                <Link key={patient.id}  href={`/bill-data/${patient.id}`}>
+                <Link key={patient.id}  href={`/infopatient/data/${patient.id}`}>
                 <div  className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg duration-300 hover:bg-gray-200 transition-all">
                   <div className="text-lg font-semibold text-gray-800">{patient.full_name}</div>
                   <div className="text-gray-600 mt-1">เบอร์โทร : {patient.tel}</div>

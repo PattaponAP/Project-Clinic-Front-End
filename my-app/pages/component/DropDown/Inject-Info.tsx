@@ -27,7 +27,6 @@ export const InjectInfo = ({ select }: { select: (value: string) => void }) => {
     const value = event.target.value;
     setSelectedInject(value);
     select(value);
-    console.log(value)
   };
 
   return (

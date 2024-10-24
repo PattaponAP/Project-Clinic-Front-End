@@ -22,7 +22,7 @@ export default function ListQueue() {
 
     try {
       const response = await GetQueue();
-      setQueueData(response.data);
+      setQueueData(response);
       setIsLoading(true);
     } catch (error) {
       setError("Failed to fetch queue data");

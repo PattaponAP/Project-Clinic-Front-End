@@ -21,13 +21,14 @@ export const PutQueue = async (qid: number) => {
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.error("Response data:", error.response?.data);
-            throw new Error(`Request failed: ${error.response?.status} - ${error.message}`);
+            const message = error.response?.data || 'Unknown error';
+            throw new Error(`Failed to fetch dispense data: ${message} - ${error.message}`);
         } else if (error instanceof Error) {
-            throw new Error(`Request failed: ${error.message}`);
+            throw new Error(`Failed to fetch dispense data: ${error.message}`);
         } else {
-            throw new Error('Request failed with an unknown error');
+            throw new Error('Failed to fetch dispense data due to an unknown error');
         }
+      }
     }
-};
 
 export default PutQueue;

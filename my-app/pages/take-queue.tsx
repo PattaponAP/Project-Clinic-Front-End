@@ -15,6 +15,7 @@ export default function TakeQueue() {
 
       return () => clearTimeout(timer);
     }
+    
   }, [check]);
   
   return (
